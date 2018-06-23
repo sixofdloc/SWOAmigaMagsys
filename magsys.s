@@ -31,14 +31,13 @@ PT__Channels    EQU 4
     CALL    OpenLibrary 
     move.l  d0,_DOSBase 
     bsr.w InitMouse
-    move.l #3,d0
+    move.l #0,d0
+    bsr.w LoadLogoNumber
+    move.l #0,d0
     bsr.w LoadModNumber
     move.l #0,d0
     bsr.w LoadArticle
     bsr.W DisplayArticleText
-    ;bsr.W DisplayArticleText
-    ;bsr.W DisplayArticleText
-    ;bsr.w LoadMod
     bsr.w InstallPointerSprite
     bsr.w SetupScreen    ; Setup Copperlist
   
@@ -78,7 +77,7 @@ VBlankInt:
     movem.l d0-a6,-(a7) ; Push all regs onto stack
     move.l  #$dff002,a5 ; Custom chip base
 ;interrupt driven calls here
-    jsr DoLogo
+;    jsr DoLogo
     bsr.w HandleMouse
     cmp.l #1,menu_active
     bne vbi_nomenu
@@ -104,25 +103,25 @@ InitMusic:
 SetupScreen:
     lea      BitmapPointers,a0
 
-    move.l   #Backdrop,d0
+    move.l   #Backdrop_plane_1,d0
     move.w   d0,6(a0)
     swap     d0
     move.w   d0,2(a0)
     swap     d0
 
-    add.l    #320*256/8,d0
+    move.l   #Backdrop_plane_2,d0
     move.w   d0,14(a0)
     swap     d0
     move.w   d0,10(a0)
     swap     d0
 
-    add.l    #320*256/8,d0
+    move.l   #Backdrop_plane_3,d0
     move.w   d0,22(a0)
     swap     d0
     move.w   d0,18(a0)
     swap     d0
 
-    add.l    #320*256/8,d0
+    move.l   #Backdrop_plane_4,d0
     move.w   d0,30(a0)
     swap     d0
     move.w   d0,26(a0)
@@ -136,11 +135,73 @@ SetupScreen:
     include 'ptplay.s'
     include 'dloc_kit.s'
 ;=============================================================================
+    ;expects logo number in d0
+LoadLogoNumber:
+    add.b #$30,d0
+    lea logobasename,a0
+    move.b d0,6(a0)
+    move.b #$61,7(a0)
+    bsr.w LoadLogo
+;lock:
+ ;   jmp lock
+    rts
+
+LoadLogo:
+    ;load plane 1
+    lea logobasename,a0
+    move.l a0,d1
+    move.l #Backdrop_plane_1,d2
+    move.l 2560,d3
+    bsr.w LoadFile
+;lock
+;    jmp lock
+
+    ;load plane 2
+    lea logobasename,a0
+    move.b #$62,7(a0)
+    move.l a0,d1
+    move.l #Backdrop_plane_2,d2
+    move.l 2560,d3
+    bsr.w LoadFile
+
+    ;load plane 3
+    lea logobasename,a0
+    move.b #$63,7(a0)
+    move.l a0,d1
+    move.l #Backdrop_plane_3,d2
+    move.l 2560,d3
+    bsr.w LoadFile
+
+    ;load plane 4
+    lea logobasename,a0
+    move.b #$64,7(a0)
+    move.l a0,d1
+    move.l #Backdrop_plane_4,d2
+    move.l 2560,d3
+    bsr.w LoadFile
+
+    ;load palette
+    lea logobasename,a0
+    move.b #$65,7(a0)
+    move.l a0,d1
+    move.l #palette_temp,d2
+    move.l #64,d3
+    bsr.w LoadFile
+;lock
+ ;   jmp lock
+
+    lea palette_temp,a0
+    lea LogoPalette,a1
+    move.l #64,d1
+paletteloop:
+    move.b (a0)+,(a1)+
+    dbra d1,paletteloop
+    rts
+
 ;LoadFile
 ;   Expects Filename Addr in d1
 ;   Expects Dest Addr in d2
 ;   Expects MaxLen in d3
-;=============================================================================
 lf_fn:
     dc.l 0
 lf_dest:
@@ -149,26 +210,24 @@ lf_maxlen:
     dc.l 0
     
 LoadFile:
-    move.l d1,lf_fn
-    move.l d2,lf_dest
+    move.l d1,lf_fn             
+    move.l d2,lf_dest           
     move.l d3,lf_maxlen
-    moveq #0,d6         ;filesize or 0 if not ok
+    moveq #0,d6                 ;filesize or 0 if not ok
     move.l lf_fn,d1
-    move.l #MODE_OLDFILE,d2        ;mode_old - file must exist
-    CALLDOS Open         ;DOS Open()
-    move.l d0,d5            ;copy file handle
-    move.l d5,d1            ;filehdl
-    move.l lf_dest,d2      ;addr
-    move.l lf_maxlen,d3       ;maxlen cap
-    CALLDOS Read         ;DOS Read()
-    cmp.l d1,d0
+    move.l #MODE_OLDFILE,d2     ;mode_old - file must exist
+    CALLDOS Open                
+    move.l d0,d5                ;copy file handle
+    move.l d5,d1                ;filehdl
+    move.l lf_dest,d2           ;addr
+    move.l lf_maxlen,d3         ;maxlen cap
+    CALLDOS Read         
+    cmp.l d1,d0 
     bne.s .notok
-    move.l d1,d6            ;loading ok! (set to size!)
+    move.l d1,d6                ;loading ok! (set to size!)
 .notok: 
-    ;jmp .notok
-    move.l d5,d1            ;file handle
-    CALLDOS Close        ;DOS Close()
-
+    move.l d5,d1            
+    CALLDOS Close        
     rts    
 
 ;=============================================================================    
@@ -413,9 +472,15 @@ hmc_nomenu
     bsr.w ShowMenu
     rts
 hmc_notmainmenu
-    cmp.w #$c0,MouseX
-    ble hmc_notbottommenu
+    cmp.w #$d8,MouseX
+    ble hmc_notmusicmenu
     lea music_menu,a0
+    bsr.w ShowMenu
+    rts
+hmc_notmusicmenu
+    cmp.w #$d0,MouseX
+    ble hmc_notbottommenu
+    lea logo_menu,a0
     bsr.w ShowMenu
     rts
 hmc_notbottommenu
@@ -453,16 +518,12 @@ HandleMenuClick
     move.l MENU_ACTIONSADDR(a0),a1
     move.l MENU_PARAMSADDR(a0),a2
     move.l current_mouse_row,d0
-;lock
-;    jmp lock
     sub.l #6,d0
     cmp.l d1,d0
     bgt hmenuclick_exit
     asl.l #2,d0
     add.l d0,a1
     add.l d0,a2
-;lock2
-;    jmp lock2
     cmp.l #MENU_ACTION_CLOSEMENU,(a1)
     bne hmenu_notclosemenu
     jsr CloseMenu
@@ -493,56 +554,17 @@ hmenu_notarticle
     jsr CloseMenu
     jmp hmc_exit
 hmenu_notmusic
+    cmp.l #MENU_ACTION_LOGO,(a1)
+    bne hmenuclick_exit
+    move.l (a2),d0
+    jsr LoadLogoNumber
+    jsr CloseMenu
+    jmp hmc_exit
+
 hmenuclick_exit
     rts
 
     
-;MainMenuClick
-;    cmp.l #16,current_mouse_row
-;    bne mm_NotExit
-;    jsr ClearTextArea
-;    move.l #0,menu_active
-;    jmp exit_main_menu
-;mm_NotExit
-;    cmp.l #18,current_mouse_row
-;    bne MainMenuClickDone
-;    move.l #6,exitflag
-;exit_main_menu
-;    bsr.w CloseMenu
-;MainMenuClickDone
-;    rts
-;
-;MusicMenuClick
-;    cmp.l #6,current_mouse_row
-;    bne not_music0
-;    move.l #0,d0
-;    jsr LoadModNumber
-;    jmp exit_music_menu
-;not_music0
-;    cmp.l #8,current_mouse_row
-;    bne not_music1
-;    move.l #1,d0
-;    jsr LoadModNumber
-;    jmp exit_music_menu
-;not_music1
-;    cmp.l #10,current_mouse_row
-;    bne not_music2
-;    move.l #2,d0
-;    jsr LoadModNumber
-;    jmp exit_music_menu
-;not_music2
-;    cmp.l #12,current_mouse_row
-;    bne not_music3
-;    move.l #3,d0
-;    jsr LoadModNumber
-;    jmp exit_music_menu
-;not_music3
-;    cmp.l #14,current_mouse_row
-;    bne MusicMenuClickDone
-;exit_music_menu
-;    bsr.w CloseMenu
-;MusicMenuClickDone
-;    rts
 ;=============================================================================
 CloseMenu:
     ;;MOVEM.l D0-D7/A0-A6,-(SP) ;Push D0-D7/A0-A6 onto the stack
@@ -561,8 +583,6 @@ cta_loop
     move.b #0,(a1)+
     ;add.l #4,a0
     dbra d2,cta_loop
-;lock
-;    jmp lock
     bsr.w CleanRowColors
     MOVEM.l (SP)+,D0-D7/A0-A6 ;Pop regs   
     rts
@@ -574,23 +594,17 @@ DisplayArticleText:
     move.l current_top_row,d3
     mulu #40,d3
     add.l d3,a2
-   ;move.l current_top_row,d3
     move.l #20,d5
     move.l #0,d0
 dat_loop
     bsr.w Put40
-    ;add.l #40,a2
     add.l #1,d0
-    ;add.l #1,d3
-    ;cmp.l article_rows,d3
-    ;bgt dat_exit
     dbra d5,dat_loop
 dat_exit
     rts
 
 ;=============================================================================
 Put40 ;pointer to text in a2, dest row in d0, returns new text addr in a2
-    ;jmp Put40
     MOVEM.l D0-D7/A3-A6,-(SP) ;Push D0-D7/A3-A6 onto the stack
     lea Backdrop,a1   
     add.l #(72*40),a1
@@ -751,121 +765,6 @@ SetCharRowColor: ;expects char row in d0, color in d1
     move.w d1,(a1)
     rts
 ;=============================================================================
-DoLogo:
-    jsr DoOutline
-    jsr ClearColorTable
-    jsr DoRed
-    jsr DoGreen
-    jsr DoBlue
-    lea logo_background_colors,a1
-    lea ColorBarTable,a0
-    move.l #0,d0
-cllctc_loop:
-    move.b (a0)+,(a1)+
-    move.b (a0)+,(a1)+
-    add.l #6,a1
-    add.l #1,d0
-    cmp.l #$3d,d0
-    bne.s cllctc_loop
-    rts    
-
-DoOutline:
-    sub.b #1,OutlineTick
-    cmp.b #0,OutlineTick
-    bne SkipOutline
-    move.b OutlineDelay,OutlineTick
-    add.b #$02,OutlinePos
-    cmp.b #$40,OutlinePos
-    bne Not_Outline_Reset
-    move.b #0,OutlinePos
-Not_Outline_Reset:
-    move.l #0,d0
-    move.b OutlinePos,d0
-    lea GreyTable,a0
-    lea logo_outline_color,a1
-    add.l d0,a0
-    move.w (a0),(a1)
-SkipOutline:
-    rts
-
-DoRed
-    sub.b #1,RedTick
-    cmp.b #0,RedTick
-    bne PlotRed
-    move.b RedDelay,RedTick
-    cmp.b #0,RedDir ; 0 is increment, 1 is decrement
-    bne DecRed
-    add.b #1,RedPos
-    cmp.b #$24,RedPos
-    bne PlotRed
-    move.b #1,RedDir
-    jmp PlotRed
-DecRed
-    sub.b #1,RedPos
-    cmp.b #0,RedPos
-    bne PlotRed
-    move.b #0,RedDir
-PlotRed:
-    lea RedTable,a0
-    move.l #0,d0
-    move.b RedPos,d0
-    move.l #0,d1
-PlotBar
-    lea ColorBarTable,a1
-    asl.l #1,d0
-    add.l d0,a1
-    move.l #$40,d0
-    bsr.w CopyMemBytes
-    rts
-
-DoGreen
-    sub.b #1,GreenTick
-    cmp.b #0,GreenTick
-    bne PlotGreen
-    move.b GreenDelay,GreenTick
-    cmp.b #0,GreenDir ; 0 is increment, 1 is decrement
-    bne DecGreen
-    add.b #1,GreenPos
-    cmp.b #$27,GreenPos
-    bne PlotGreen
-    move.b #1,GreenDir
-    jmp PlotGreen
-DecGreen:
-    sub.b #1,GreenPos
-    cmp.b #0,GreenPos
-    bne PlotGreen
-    move.b #0,GreenDir    
-PlotGreen:
-    lea GreenTable,a0
-    move.l #0,d0
-    move.b GreenPos,d0
-    move.l #1,d1
-    jmp PlotBar
-
-DoBlue
-    sub.b #1,BlueTick
-    cmp.b #0,BlueTick
-    bne PlotBlue
-    move.b BlueDelay,BlueTick
-    cmp.b #0,BlueDir ; 0 is increment, 1 is decrement
-    bne DecBlue
-    add.b #1,BluePos
-    cmp.b #$29,BluePos
-    bne PlotBlue
-    move.b #1,BlueDir
-    jmp PlotBlue
-DecBlue
-    sub.b #1,BluePos
-    cmp.b #0,BluePos
-    bne PlotBlue
-    move.b #0,BlueDir
-    
-PlotBlue:
-    lea BlueTable,a0
-    move.l #0,d0
-    move.b BluePos,d0
-    move.l #1,d1
-    jmp PlotBar
 
 CopyMemBytes:  ;(a0)->(a1), d0 bytes
    ; jmp CopyMemBytes
@@ -900,194 +799,7 @@ CCT_Loop:
     dbra d0,CCT_Loop
     rts
 
-    section fish,data
-
-
-    
-    include 'menus.s'
 ;=============================================================================    
-charcolors
-    dc.l charcolor0,charcolor1,charcolor2,charcolor3,charcolor4,charcolor5
-    dc.l charcolor6,charcolor7,charcolor8,charcolor9,charcolor10,charcolor11
-    dc.l charcolor12,charcolor13,charcolor14,charcolor15,charcolor16
-    dc.l charcolor17,charcolor18,charcolor19,charcolor20
-
- 
-;menu variables for mouseover
-menu_active
-    dc.l 0
-
-current_menu_addr
-    dc.l 0
-
-exitflag
-    dc.l 0
-
-loading_music
-    dc.l 0
-    
-current_mouse_row
-    dc.l 0
-    
-loading_article ;flag to keep from reloading article
-    dc.l 0
-article_rows ;number of rows in article
-    dc.l 0
-current_top_row ;currently displayed article row at top of screen
-    dc.l 0
-  
-mouse_debounce
-    dc.l 0
-
-    EVEN
-
-;mouse variables
-MouseY:
-        dc.w    0
-MouseX:
-        dc.w    0
-;oldhorizcnt:
-;        ds.b    1
-;oldvertcnt:
-;        ds.b    1
-OldDeltaY:      
-    dc.w    0
-OldDeltaX:      
-    dc.w    0
-   
-    EVEN
-ColorBarTable:
-    ds.w $80,0
-    EVEN
-
-RedTable
-    dc.w $0000,$0100,$0200,$0300,$0400,$0500,$0600,$0700
-    dc.w $0800,$0900,$0a00,$0b00,$0c00,$0d00,$0e00,$0f00
-    dc.w $0f00,$0e00,$0d00,$0c00,$0b00,$0a00,$0900,$0800
-    dc.w $0700,$0600,$0500,$0400,$0300,$0200,$0100,$0000
-GreenTable
-    dc.w $0000,$0010,$0020,$0030,$0040,$0050,$0060,$0070
-    dc.w $0080,$0090,$00a0,$00b0,$00c0,$00d0,$00e0,$00f0
-    dc.w $00f0,$00e0,$00d0,$00c0,$00b0,$00a0,$0090,$0080
-    dc.w $0070,$0060,$0050,$0040,$0030,$0020,$0010,$0000
-BlueTable
-    dc.w $0000,$0001,$0002,$0003,$0004,$0005,$0006,$0007
-    dc.w $0008,$0009,$000a,$000b,$000c,$000d,$000e,$000f
-    dc.w $000f,$000e,$000d,$000c,$000b,$000a,$0009,$0008
-    dc.w $0007,$0006,$0005,$0004,$0003,$0002,$0001,$0000
-GreyTable
-    dc.w $0000,$0111,$0222,$0333,$0444,$0555,$0666,$0777
-    dc.w $0888,$0999,$0aaa,$0bbb,$0ccc,$0ddd,$0eee,$0fff
-    dc.w $0fff,$0eee,$0ddd,$0ccc,$0bbb,$0aaa,$0999,$0888
-    dc.w $0777,$0666,$0555,$0444,$0333,$0222,$0111,$0000
-
-OutlineDelay:
-    dc.b $05
-OutlinePos:
-    dc.b $00
-OutlineTick: 
-    dc.b $04
-
-RedPos  
-    dc.b $00
-GreenPos    
-    dc.b $08
-BluePos     
-    dc.b $10
-
-RedDir
-    dc.b $00
-GreenDir
-    dc.b $00
-BlueDir
-    dc.b $00
-
-RedDelay
-    dc.b $02
-GreenDelay
-    dc.b $03
-BlueDelay
-    dc.b $04
-
-RedTick
-    dc.b $01
-GreenTick
-    dc.b $01
-BlueTick
-    dc.b $01
-
-EVEN
-LoadingText:
-    dc.b 'LOADING',0
-
-    EVEN
-   
-;library names
-GraphicsName:
-    GRAFNAME
-    EVEN
-DOSName:
-    DOSNAME
-    
-    EVEN
-Article
-    ds.b 128000,0
-
-;=============================================================================
-    section  chips,data_c
-    include "copperlist.s"
-
-NullSprite: 
-    dc.l 0,0,0,0 
-
-MousePointer:
-    dc.w $C985,$D900
-    dc.w $C000,$4000
-    dc.w $7000,$B000 
-    dc.w $3C00,$4C00
-    dc.w $3F00,$4300 
-    dc.w $1FC0,$20C0 
-    dc.w $1FC0,$2000 
-    dc.w $0F00,$1100
-    dc.w $0D80,$1280 
-    dc.w $04C0,$0940 
-    dc.w $0460,$08A0 
-    dc.w $0020,$0040  
-    dc.w $0000,$0000 
-    dc.w $0000,$0000 
-    dc.w $0000,$0000 
-    dc.w $0000,$0000 
-    dc.w $0000,$0000 
-    dc.w $0000,$0000 
-Backdrop:
-    incbin "raw/sceneworld2.iff.raw"
-
-mt_Counter:
-    dc.b 0,0,0,0
-
-Font:
-    incbin  'raw/font_swo_c64_2.raw'
-
-Module:
-    ds.b 256000,0
-
-;=============================================================================
-
-        section DemoBSS,BSS
-OldIntSave: 
-    ds.l    1
-Level3Save: 
-    ds.l    1
-gfx_base    
-    ds.l    1       ; pointer to graphics base
-_DOSBase    
-    ds.l    1   
-OldView     
-    ds.l    1       ; old Work Bench view addr.
-VectorBase: 
-    ds.l    1       ; pointer to the Vector Base
-OldDMACon:  
-    ds.w    1       ; old dmacon bits
-OldINTEna:  
-    ds.w    1       ; old intena bits
+    include 'data.s'
+    include "chipmem.s"
 

@@ -11,11 +11,16 @@ Copper:
     dc.w _bpl2mod,$0000
     dc.w _bplcon4,$0000
     dc.w _brstmod,$0000
-
-    include "raw/sceneworld2.iff.cmap"
+LogoPalette:
+    incbin "logos/1e" ;default palette
+    
 BitmapPointers:
-    dc.w _bpl1pth,$0000
-    dc.w _bpl1ptl,$0000
+    dc.w _bpl1pth
+Bitplane1H:
+    dc.w $0000
+    dc.w _bpl1ptl
+Bitplane1L:
+    dc.w $0000
     dc.w _bpl2pth,$0000
     dc.w _bpl2ptl,$0000
     dc.w _bpl3pth,$0000
@@ -43,135 +48,8 @@ SpritePointers:
     dc.w _spr6pth,$0000
     dc.w _spr7ptl,$0000
     dc.w _spr7pth,$0000
-    dc.w $2c0f,$fffe
-    dc.w _color15
-logo_outline_color:
-    dc.w $0ff0
-    dc.w $2d0f,$fffe
-    dc.w _color14
-logo_background_colors:
-    dc.w $0000
-    dc.w $2e0f,$fffe
-    dc.w _color14,$0000
-    dc.w $2f0f,$fffe
-    dc.w _color14,$0ddd
-    dc.w $300f,$fffe
-    dc.w _color14,$0ccc
-    dc.w $310f,$fffe
-    dc.w _color14,$0bbb
-    dc.w $320f,$fffe
-    dc.w _color14,$0aaa
-    dc.w $330f,$fffe
-    dc.w _color14,$0999
-    dc.w $340f,$fffe
-    dc.w _color14,$0888
-    dc.w $350f,$fffe
-    dc.w _color14,$0777
-    dc.w $360f,$fffe
-    dc.w _color14,$0666
-    dc.w $370f,$fffe
-    dc.w _color14,$0555
-    dc.w $380f,$fffe
-    dc.w _color14,$0444
-    dc.w $390f,$fffe
-    dc.w _color14,$0333
-    dc.w $3a0f,$fffe
-    dc.w _color14,$0222
-    dc.w $3b0f,$fffe
-    dc.w _color14,$0111
-    dc.w $3c0f,$fffe
-    dc.w _color14,$0000
-    dc.w $3d0f,$fffe
-    dc.w _color14,$0f00
-    dc.w $3e0f,$fffe
-    dc.w _color14,$0e00
-    dc.w $3f0f,$fffe
-    dc.w _color14,$0d00
-    dc.w $400f,$fffe
-    dc.w _color14,$0c00
-    dc.w $410f,$fffe
-    dc.w _color14,$0b00
-    dc.w $420f,$fffe
-    dc.w _color14,$0a00
-    dc.w $430f,$fffe
-    dc.w _color14,$0900
-    dc.w $440f,$fffe
-    dc.w _color14,$0800
-    dc.w $450f,$fffe
-    dc.w _color14,$0700
-    dc.w $460f,$fffe
-    dc.w _color14,$0600
-    dc.w $470f,$fffe
-    dc.w _color14,$0500
-    dc.w $480f,$fffe
-    dc.w _color14,$0400
-    dc.w $490f,$fffe
-    dc.w _color14,$0300
-    dc.w $4a0f,$fffe
-    dc.w _color14,$0200
-    dc.w $4b0f,$fffe
-    dc.w _color14,$0100
-    dc.w $4c0f,$fffe
-    dc.w _color14,$0000
-    dc.w $4d0f,$fffe
-    dc.w _color14,$00f0
-    dc.w $4e0f,$fffe
-    dc.w _color14,$00e0
-    dc.w $4f0f,$fffe
-    dc.w _color14,$00d0
-    dc.w $500f,$fffe
-    dc.w _color14,$00c0
-    dc.w $510f,$fffe
-    dc.w _color14,$00b0
-    dc.w $520f,$fffe
-    dc.w _color14,$00a0
-    dc.w $530f,$fffe
-    dc.w _color14,$0090
-    dc.w $540f,$fffe
-    dc.w _color14,$0080
-    dc.w $550f,$fffe
-    dc.w _color14,$0070
-    dc.w $560f,$fffe
-    dc.w _color14,$0060
-    dc.w $570f,$fffe
-    dc.w _color14,$0050
-    dc.w $580f,$fffe
-    dc.w _color14,$0040
-    dc.w $590f,$fffe
-    dc.w _color14,$0030
-    dc.w $5a0f,$fffe
-    dc.w _color14,$0020
-    dc.w $5b0f,$fffe
-    dc.w _color14,$0010
-    dc.w $5c0f,$fffe
-    dc.w _color14,$0000
-    dc.w $5d0f,$fffe
-    dc.w _color14,$00f0
-    dc.w $5e0f,$fffe
-    dc.w _color14,$00e0
-    dc.w $5f0f,$fffe
-    dc.w _color14,$00d0
-    dc.w $600f,$fffe
-    dc.w _color14,$00c0
-    dc.w $610f,$fffe
-    dc.w _color14,$00b0
-    dc.w $620f,$fffe
-    dc.w _color14,$00a0
-    dc.w $630f,$fffe
-    dc.w _color14,$0090
-    dc.w $640f,$fffe
-    dc.w _color14,$0080
-    dc.w $650f,$fffe
-    dc.w _color14,$0070
-    dc.w $660f,$fffe
-    dc.w _color14,$0060
-    dc.w $670f,$fffe
-    dc.w _color14,$0050
-    dc.w $680f,$fffe
-    dc.w _color14,$0fff
-    dc.w $690f,$fffe
-    dc.w _color14,$0fff
- ;main magsys text window
+
+ ;main magsys text window, background color fade in
     dc.w $6e0f,$fffe
     dc.w _color00,$0111
     dc.w $6f0f,_copwait
@@ -184,7 +62,7 @@ logo_background_colors:
     dc.w _color00,$0555
     dc.w $730f,_copwait
     dc.w _color00,$0666
-;char row 0
+;main magsys text window, char row 0
     dc.w $740f,_copwait
     dc.w _color01
 charcolor0:
@@ -291,7 +169,8 @@ charcolor19:
     dc.w _color01
 charcolor20:
     dc.w $0fff
-;fade out
+
+;main window text area background fade out
     dc.w $1c0f,_copwait
     dc.w _color00,$0555
     dc.w $1d0f,_copwait
@@ -304,7 +183,11 @@ charcolor20:
     dc.w _color00,$0111
     dc.w $210f,_copwait
     dc.w _color00,$0000
-    
+
+;bottom menu bar palette
+    dc.w _color01,$0fff
+    dc.w _color02,$0444
+    dc.w _color03,$0888
 
 EndCopper:
     dc.l  -2,-2

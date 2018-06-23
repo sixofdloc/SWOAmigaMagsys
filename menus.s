@@ -15,80 +15,9 @@ MENU_ACTION_EXITMAGSYS  EQU 2
 MENU_ACTION_ARTICLE     EQU 3
 MENU_ACTION_MUSIC       EQU 4
 MENU_ACTION_SILENCE     EQU 5
+MENU_ACTION_LOGO        EQU 6
 
-;=============================================================================
 
-modfilename0:
-    dc.b 'mus/mod.the realm of love',0
-modfilename1:
-    dc.b 'mus/mod.chipper i',0
-modfilename2:
-    dc.b 'mus/mod.cucumber boogie+',0
-modfilename3:
-    dc.b 'mus/fyc.mod',0
-
-modfilenames:
-    dc.l modfilename0,modfilename1,modfilename2,modfilename3
-
-articlefilename0:
-    dc.b 'articles/editorial.vdo',0 //
-articlefilename1:
-    dc.b 'articles/27info.vdo',0 //
-articlefilename2:
-    dc.b 'articles/feedbag.vdo',0 //
-articlefilename3:
-    dc.b 'articles/pgdc.vdo',0 //
-articlefilename4:
-    dc.b 'articles/fanzine.vdo',0 //
-articlefilename5:
-    dc.b 'articles/nolan.vdo',0 //
-articlefilename6:
-    dc.b 'articles/istvan.vdo',0 //
-articlefilename7:
-    dc.b 'articles/gleisner.vdo',0 //
-articlefilename8:
-    dc.b 'articles/mozer.vdo',0 //
-articlefilename9:
-    dc.b 'articles/melbourne.vdo',0 //
-articlefilename10:
-    dc.b 'articles/jonhare.vdo',0 //
-articlefilename11:
-    dc.b 'articles/polyplay.vdo',0
-articlefilename12:
-    dc.b 'articles/shotgun.vdo',0 //
-articlefilename13:
-    dc.b 'articles/ntscnews.vdo',0 //
-articlefilename14:
-    dc.b 'articles/magfest.vdo',0 //
-articlefilename15:
-    dc.b 'articles/x16report.vdo',0 //
-articlefilename16:
-    dc.b 'articles/eccc.vdo',0 //
-articlefilename17:
-    dc.b 'articles/fastloaders.vdo',0 //
-articlefilename18:
-    dc.b 'articles/gamesnews.vdo',0 //
-articlefilename19:
-    dc.b 'articles/gamereviews.vdo',0 //
-articlefilename20:
-    dc.b 'articles/rgdcreport.vdo',0 //
-articlefilename21:
-    dc.b 'articles/seuck.vdo',0 //
-articlefilename22:
-    dc.b 'articles/gametut.vdo',0 //
-articlefilename23:
-    dc.b 'articles/bbsnews.vdo',0 //
-articlefilename24:
-    dc.b 'articles/bbsage.vdo',0 //
-    
-articlefilenames:
-    dc.l articlefilename0,articlefilename1,articlefilename2,articlefilename3
-    dc.l articlefilename4,articlefilename5,articlefilename6,articlefilename7
-    dc.l articlefilename8,articlefilename9,articlefilename10,articlefilename11
-    dc.l articlefilename12,articlefilename13,articlefilename14,articlefilename15
-    dc.l articlefilename16,articlefilename17,articlefilename18,articlefilename19
-    dc.l articlefilename20,articlefilename21,articlefilename22,articlefilename23
-    dc.l articlefilename24
 ;=============================================================================
 ;main menu structure
 main_menu
@@ -128,6 +57,42 @@ main_menu_option5
 main_menu_end:
     EVEN
 
+;=============================================================================
+;logo menu structure
+logo_menu
+    dc.l 4  ;top option #
+    dc.l logo_menu_optionaddrs
+    dc.l logo_menu_lengths
+    dc.l logo_menu_title
+    dc.l logo_menu_option0-logo_menu_title ;len of title
+    dc.l logo_menu_actions
+    dc.l logo_menu_params
+logo_menu_optionaddrs:
+    dc.l logo_menu_option0,logo_menu_option1,logo_menu_option2,logo_menu_option3
+    dc.l logo_menu_option4
+logo_menu_lengths
+    dc.l (logo_menu_option1-logo_menu_option0)-1,(logo_menu_option2-logo_menu_option1)-1
+    dc.l (logo_menu_option3-logo_menu_option2)-1,(logo_menu_option4-logo_menu_option3)-1
+    dc.l (logo_menu_end-logo_menu_option4)-1
+logo_menu_actions
+    dc.l MENU_ACTION_LOGO,MENU_ACTION_LOGO,MENU_ACTION_LOGO,MENU_ACTION_LOGO
+    dc.l MENU_ACTION_CLOSEMENU
+logo_menu_params
+    dc.l 0,1,2,3,0
+logo_menu_title:
+    dc.b 'LOGO MENU',0
+logo_menu_option0
+    dc.b 'Logo 1 by JSL',0
+logo_menu_option1
+    dc.b 'Logo 2 by JSL',0
+logo_menu_option2
+    dc.b 'Logo 3 by JSL',0
+logo_menu_option3
+    dc.b 'Logo 4 by Nodepond',0
+logo_menu_option4
+    dc.b 'Exit Menu',0
+logo_menu_end:
+    EVEN
 
 ;=============================================================================
 ;music menu structure
