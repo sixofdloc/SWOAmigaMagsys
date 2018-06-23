@@ -230,8 +230,24 @@ LoadFile:
     CALLDOS Close        
     rts    
 
-;=============================================================================    
+LoadFont ;expects font # in d0
+    lea fontfilenames,a0
+    move.l a0,d1
+    asl #2,d0
+    add.l d0,d1
+    move.l d1,a0
+    move.l (a0),d1
+    move.l #UpperFont,d2
+    move.l #$400,d3
+    bsr.w LoadFile
+    rts
+
+;=============================================================================
+CurrentArticle:
+    dc.l 0
+    
 LoadArticle ;expects article # in d0
+    move.l d0,CurrentArticle
     move.l #1,loading_article
     jsr ClearTextArea
     ;jsr ClearArticleArea
@@ -249,6 +265,8 @@ LoadArticle ;expects article # in d0
     move.l d6,article_rows
     move.l #0,loading_article
     move.l #0,current_top_row
+    move.l CurrentArticle,d0
+    bsr.w LoadFont
     rts
 
 ClearArticleArea

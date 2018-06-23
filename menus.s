@@ -43,11 +43,11 @@ main_menu_params
 main_menu_title:
     dc.b 'MAIN MENU',0
 main_menu_option0
-    dc.b 'Editorial',0
+    dc.b 'Editorial by Scorpion',0
 main_menu_option1
-    dc.b 'Information',0
+    dc.b 'Editorial by Nafcom',0
 main_menu_option2
-    dc.b 'Feedbag',0
+    dc.b 'Information',0
 main_menu_option3
     dc.b 'Articles',0
 main_menu_option4
@@ -57,6 +57,132 @@ main_menu_option5
 main_menu_end:
     EVEN
 
+;=============================================================================
+;articles menu structure
+articles_menu
+    dc.l 6  ;top option #
+    dc.l articles_menu_optionaddrs
+    dc.l articles_menu_lengths
+    dc.l articles_menu_title
+    dc.l articles_menu_option0-articles_menu_title ;len of title
+    dc.l articles_menu_actions
+    dc.l articles_menu_params
+articles_menu_optionaddrs:
+    dc.l articles_menu_option0,articles_menu_option1
+    dc.l articles_menu_option2,articles_menu_option3
+    dc.l articles_menu_option4,articles_menu_option5
+    dc.l articles_menu_option6
+articles_menu_lengths
+    dc.l (articles_menu_option1 - articles_menu_option0)-1
+    dc.l (articles_menu_option2 - articles_menu_option1)-1
+    dc.l (articles_menu_option3 - articles_menu_option2)-1
+    dc.l (articles_menu_option4 - articles_menu_option3)-1
+    dc.l (articles_menu_option5 - articles_menu_option4)-1
+    dc.l (articles_menu_option6 - articles_menu_option5)-1
+    dc.l (articles_menu_end     - articles_menu_option6)-1
+articles_menu_actions:
+    dc.l MENU_ACTION_SPAWNMENU, MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_SPAWNMENU, MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_SPAWNMENU, MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_CLOSEMENU
+articles_menu_params:
+    dc.l party_menu,games_scene_menu
+    dc.l games_news_menu, interviews_menu
+    dc.l ntsc_menu,main_menu
+    dc.l 0
+articles_menu_title:
+    dc.b 'ARTICLES MENU',0
+articles_menu_option0
+    dc.b 'Party Scene',0
+articles_menu_option1
+    dc.b 'Games Scene',0
+articles_menu_option2
+    dc.b 'Games News',0
+articles_menu_option3
+    dc.b 'Interviews',0
+articles_menu_option4
+    dc.b 'NTSC Scene',0
+articles_menu_option5
+    dc.b 31,'Back',0
+articles_menu_option6
+    dc.b 'Exit Menu',0
+articles_menu_end:
+    EVEN
+
+
+;=============================================================================
+;party menu structure
+party_menu
+    dc.l 5  ;top option #
+    dc.l party_menu_optionaddrs
+    dc.l party_menu_lengths
+    dc.l party_menu_title
+    dc.l party_menu_option0-party_menu_title ;len of title
+    dc.l party_menu_actions
+    dc.l party_menu_params
+party_menu_optionaddrs:
+    dc.l party_menu_option0,party_menu_option1
+    dc.l party_menu_option2,party_menu_option3
+    dc.l party_menu_option4,party_menu_option5
+party_menu_lengths
+    dc.l (party_menu_option1-party_menu_option0)-1
+    dc.l (party_menu_option2-party_menu_option1)-1
+    dc.l (party_menu_option3-party_menu_option2)-1
+    dc.l (party_menu_option4-party_menu_option3)-1
+    dc.l (party_menu_option5-party_menu_option4)-1
+    dc.l (party_menu_end-party_menu_option5)-1
+party_menu_actions
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
+party_menu_params
+    dc.l 3,4,5,6,main_menu,0
+party_menu_title:
+    dc.b 'PARTY MENU',0
+party_menu_option0
+    dc.b 'Syntax 2017 Report',0
+party_menu_option1
+    dc.b 'Revision 2017 Report',0
+party_menu_option2
+    dc.b 'Homecon',0
+party_menu_option3
+    dc.b 'Play Expo 2017',0
+party_menu_option4
+    dc.b 31,'Back',0
+party_menu_option5
+    dc.b 'Exit Menu',0
+party_menu_end:
+    EVEN
+
+;=============================================================================
+;games scene menu structure
+games_scene_menu 
+
+;=============================================================================
+;games scene menu structure
+games_news_menu 
+
+;=============================================================================
+;games scene menu structure
+interviews_menu 
+
+;=============================================================================
+;John Chowning menu structure
+john_menu 
+
+;=============================================================================
+;Christian Spanik menu structure
+chris_menu 
+
+;=============================================================================
+;David Pleasance menu structure
+david_menu 
+
+
+;=============================================================================
+;games scene menu structure
+ntsc_menu 
+    
 ;=============================================================================
 ;logo menu structure
 logo_menu
@@ -132,246 +258,4 @@ music_menu_option5
     dc.b 'Exit Menu',0
 music_menu_end:
     EVEN
-;=============================================================================
-;articles menu structure
-articles_menu
-    dc.l 8  ;top option #
-    dc.l articles_menu_optionaddrs
-    dc.l articles_menu_lengths
-    dc.l articles_menu_title
-    dc.l articles_menu_option0-articles_menu_title ;len of title
-    dc.l articles_menu_actions
-    dc.l articles_menu_params
-articles_menu_optionaddrs:
-    dc.l articles_menu_option0,articles_menu_option1,articles_menu_option2,articles_menu_option3
-    dc.l articles_menu_option4,articles_menu_option5,articles_menu_option6,articles_menu_option7
-    dc.l articles_menu_option8
-articles_menu_lengths
-    dc.l (articles_menu_option1-articles_menu_option0)-1,(articles_menu_option2-articles_menu_option1)-1
-    dc.l (articles_menu_option3-articles_menu_option2)-1,(articles_menu_option4-articles_menu_option3)-1
-    dc.l (articles_menu_option5-articles_menu_option4)-1,(articles_menu_option6-articles_menu_option5)-1
-    dc.l (articles_menu_option7-articles_menu_option6)-1,(articles_menu_option8-articles_menu_option7)-1
-    dc.l (articles_menu_end-articles_menu_option8)-1
-articles_menu_actions:
-    dc.l MENU_ACTION_SPAWNMENU, MENU_ACTION_ARTICLE, MENU_ACTION_SPAWNMENU, MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_SPAWNMENU, MENU_ACTION_SPAWNMENU, MENU_ACTION_SPAWNMENU,MENU_ACTION_SPAWNMENU
-    dc.l MENU_ACTION_CLOSEMENU
-articles_menu_params:
-    dc.l interviews_menu, 3, unboxings_menu,4
-    dc.l palntsc_menu,games_menu,bbs_menu,main_menu,0
-articles_menu_title:
-    dc.b 'ARTICLES MENU',0
-articles_menu_option0
-    dc.b 'Interviews',0
-articles_menu_option1
-    dc.b 'SWO At PGDC',0
-articles_menu_option2
-    dc.b 'Unboxings',0
-articles_menu_option3
-    dc.b 'Fanzine Scene',0
-articles_menu_option4
-    dc.b 'PAL/NTSC Scene',0
-articles_menu_option5
-    dc.b 'Games Scene',0
-articles_menu_option6
-    dc.b 'BBS Scene',0
-articles_menu_option7
-    dc.b 31,'Back',0
-articles_menu_option8
-    dc.b 'Exit Menu',0
-articles_menu_end:
-    EVEN
-;=============================================================================
-;interviews menu structure
-interviews_menu
-    dc.l 7  ;top option #
-    dc.l interviews_menu_optionaddrs
-    dc.l interviews_menu_lengths
-    dc.l interviews_menu_title
-    dc.l interviews_menu_option0-interviews_menu_title ;len of title
-    dc.l interviews_menu_actions
-    dc.l interviews_menu_params
-interviews_menu_optionaddrs:
-    dc.l interviews_menu_option0,interviews_menu_option1,interviews_menu_option2,interviews_menu_option3
-    dc.l interviews_menu_option4,interviews_menu_option5,interviews_menu_option6,interviews_menu_option7
-interviews_menu_lengths
-    dc.l (interviews_menu_option1-interviews_menu_option0)-1,(interviews_menu_option2-interviews_menu_option1)-1
-    dc.l (interviews_menu_option3-interviews_menu_option2)-1,(interviews_menu_option4-interviews_menu_option3)-1
-    dc.l (interviews_menu_option5-interviews_menu_option4)-1,(interviews_menu_option6-interviews_menu_option5)-1
-    dc.l (interviews_menu_option7-interviews_menu_option6)-1,(interviews_menu_end-interviews_menu_option7)-1
-interviews_menu_actions
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
-interviews_menu_params
-    dc.l 5,6,7,8,9,10,articles_menu,0
-interviews_menu_title:
-    dc.b 'INTERVIEWS MENU',0
-interviews_menu_option0
-    dc.b 'Nolan Bushnell',0
-interviews_menu_option1
-    dc.b 'Istvan Hegedes',0
-interviews_menu_option2
-    dc.b 'Christian Gleisner',0
-interviews_menu_option3
-    dc.b 'Forrest Mozer',0
-interviews_menu_option4
-    dc.b 'Darren Melbourne',0
-interviews_menu_option5
-    dc.b 'Jon Hare',0
-interviews_menu_option6
-    dc.b 31,'Back',0
-interviews_menu_option7
-    dc.b 'Exit Menu',0
-interviews_menu_end:
-    EVEN    
-;=============================================================================
-;unboxings menu structure
-unboxings_menu
-    dc.l 3  ;top option #
-    dc.l unboxings_menu_optionaddrs
-    dc.l unboxings_menu_lengths
-    dc.l unboxings_menu_title
-    dc.l unboxings_menu_option0-unboxings_menu_title ;len of title
-    dc.l unboxings_menu_actions
-    dc.l unboxings_menu_params
-unboxings_menu_optionaddrs:
-    dc.l unboxings_menu_option0,unboxings_menu_option1,unboxings_menu_option2,unboxings_menu_option3
-unboxings_menu_lengths
-    dc.l (unboxings_menu_option1-unboxings_menu_option0)-1,(unboxings_menu_option2-unboxings_menu_option1)-1
-    dc.l (unboxings_menu_option3-unboxings_menu_option2)-1,(unboxings_menu_end-unboxings_menu_option3)-1
-unboxings_menu_actions
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
-unboxings_menu_params
-    dc.l 11,12,articles_menu,0
-unboxings_menu_title:
-    dc.b 'UNBOXINGS MENU',0
-unboxings_menu_option0
-    dc.b 'Poly Play',0
-unboxings_menu_option1
-    dc.b 'Shotgun',0
-unboxings_menu_option2
-    dc.b 31,'Back',0
-unboxings_menu_option3
-    dc.b 'Exit Menu',0
-unboxings_menu_end:
-    EVEN
-    
-;=============================================================================
-;palntsc menu structure
-palntsc_menu
-    dc.l 6  ;top option #
-    dc.l palntsc_menu_optionaddrs
-    dc.l palntsc_menu_lengths
-    dc.l palntsc_menu_title
-    dc.l palntsc_menu_option0-palntsc_menu_title ;len of title
-    dc.l palntsc_menu_actions
-    dc.l palntsc_menu_params
-palntsc_menu_optionaddrs:
-    dc.l palntsc_menu_option0,palntsc_menu_option1,palntsc_menu_option2,palntsc_menu_option3
-    dc.l palntsc_menu_option4,palntsc_menu_option5,palntsc_menu_option6
-palntsc_menu_lengths
-    dc.l (palntsc_menu_option1-palntsc_menu_option0)-1,(palntsc_menu_option2-palntsc_menu_option1)-1
-    dc.l (palntsc_menu_option3-palntsc_menu_option2)-1,(palntsc_menu_option4-palntsc_menu_option3)-1
-    dc.l (palntsc_menu_option5-palntsc_menu_option4)-1,(palntsc_menu_option6-palntsc_menu_option5)-1
-    dc.l (palntsc_menu_end-palntsc_menu_option6)-1
-palntsc_menu_actions
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
-palntsc_menu_params
-    dc.l 13,14,15,16,17,articles_menu,0
-palntsc_menu_title:
-    dc.b 'PAL/NTSC SCENE MENU',0
-palntsc_menu_option0
-    dc.b 'NTSC News',0
-palntsc_menu_option1
-    dc.b 'Magfest',0
-palntsc_menu_option2
-    dc.b 'X16 Report',0
-palntsc_menu_option3
-    dc.b 'ECCC VCFMW Report',0
-palntsc_menu_option4
-    dc.b 'The Fastloaders Concert',0
-palntsc_menu_option5
-    dc.b 31,'Back',0
-palntsc_menu_option6
-    dc.b 'Exit Menu',0
-palntsc_menu_end:
-    EVEN    
-    
-;=============================================================================
-;games menu structure
-games_menu
-    dc.l 6  ;top option #
-    dc.l games_menu_optionaddrs
-    dc.l games_menu_lengths
-    dc.l games_menu_title
-    dc.l games_menu_option0-games_menu_title ;len of title
-    dc.l games_menu_actions
-    dc.l games_menu_params
-games_menu_optionaddrs:
-    dc.l games_menu_option0,games_menu_option1,games_menu_option2,games_menu_option3
-    dc.l games_menu_option4,games_menu_option5,games_menu_option6
-games_menu_lengths
-    dc.l (games_menu_option1-games_menu_option0)-1,(games_menu_option2-games_menu_option1)-1
-    dc.l (games_menu_option3-games_menu_option2)-1,(games_menu_option4-games_menu_option3)-1
-    dc.l (games_menu_option5-games_menu_option4)-1,(games_menu_option6-games_menu_option5)-1
-    dc.l (games_menu_end-games_menu_option6)-1
-games_menu_actions
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
-games_menu_params
-    dc.l 18,19,20,21,22,articles_menu,0
-games_menu_title:
-    dc.b 'GAMES SCENE MENU',0
-games_menu_option0
-    dc.b 'Games News',0
-games_menu_option1
-    dc.b 'Game Reviews',0
-games_menu_option2
-    dc.b 'RGDC Report',0
-games_menu_option3
-    dc.b 'SEUCK Compo',0
-games_menu_option4
-    dc.b 'Game Making Tutorial',0
-games_menu_option5
-    dc.b 31,'Back',0
-games_menu_option6
-    dc.b 'Exit Menu',0
-games_menu_end:
-    EVEN        
-    
-;=============================================================================
-;bbs menu structure
-bbs_menu
-    dc.l 3  ;top option #
-    dc.l bbs_menu_optionaddrs
-    dc.l bbs_menu_lengths
-    dc.l bbs_menu_title
-    dc.l bbs_menu_option0-bbs_menu_title ;len of title
-    dc.l bbs_menu_actions
-    dc.l bbs_menu_params
-bbs_menu_optionaddrs:
-    dc.l bbs_menu_option0,bbs_menu_option1,bbs_menu_option2,bbs_menu_option3
- 
-bbs_menu_lengths
-    dc.l (bbs_menu_option1-bbs_menu_option0)-1,(bbs_menu_option2-bbs_menu_option1)-1
-    dc.l (bbs_menu_option3-bbs_menu_option2)-1,(bbs_menu_end-bbs_menu_option3)-1
-bbs_menu_actions
-    dc.l MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
-bbs_menu_params
-    dc.l 23,24,articles_menu,0
-bbs_menu_title:
-    dc.b 'BBS SCENE MENU',0
-bbs_menu_option0
-    dc.b 'BBS News',0
-bbs_menu_option1
-    dc.b 'BBS Comes Of Age',0
-bbs_menu_option2
-    dc.b 31,'Back',0
-bbs_menu_option3
-    dc.b 'Exit Menu',0
-bbs_menu_end:
-    EVEN        
-    
+
