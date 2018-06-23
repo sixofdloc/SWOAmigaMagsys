@@ -51,17 +51,17 @@ SpritePointers:
 
  ;main magsys text window, background color fade in
     dc.w $6e0f,$fffe
-    dc.w _color00,$0111
-    dc.w $6f0f,_copwait
     dc.w _color00,$0222
-    dc.w $700f,_copwait
-    dc.w _color00,$0333
-    dc.w $710f,_copwait
+    dc.w $6f0f,_copwait
     dc.w _color00,$0444
-    dc.w $720f,_copwait
-    dc.w _color00,$0555
-    dc.w $730f,_copwait
+    dc.w $700f,_copwait
     dc.w _color00,$0666
+    dc.w $710f,_copwait
+    dc.w _color00,$0888
+    dc.w $720f,_copwait
+    dc.w _color00,$0aaa
+    dc.w $730f,_copwait
+    dc.w _color00,$0ccc
 ;main magsys text window, char row 0
     dc.w $740f,_copwait
     dc.w _color01
@@ -172,17 +172,17 @@ charcolor20:
 
 ;main window text area background fade out
     dc.w $1c0f,_copwait
-    dc.w _color00,$0555
+    dc.w _color00,$0ccc
     dc.w $1d0f,_copwait
-    dc.w _color00,$0444
+    dc.w _color00,$0aaa
     dc.w $1e0f,_copwait
-    dc.w _color00,$0333
+    dc.w _color00,$0888
     dc.w $1f0f,_copwait
-    dc.w _color00,$0222
+    dc.w _color00,$0666
     dc.w $200f,_copwait
-    dc.w _color00,$0111
+    dc.w _color00,$0444
     dc.w $210f,_copwait
-    dc.w _color00,$0000
+    dc.w _color00,$0222
 
 ;bottom menu bar palette
     dc.w _color01,$0fff

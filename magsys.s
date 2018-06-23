@@ -739,7 +739,7 @@ hmr_loop
     move.l #$0f00,d1
     jmp hmr_setcolor
 hmr_notcurrent
-    move.l #$0fff,d1
+    move.l #$0444,d1 ;$fff
 hmr_setcolor
     bsr.w SetCharRowColor
     dbra d7,hmr_loop    
@@ -749,7 +749,7 @@ CleanRowColors:
     moveq.l #20,d7
 crc_loop
     move.l d7,d0
-    move.l #$0fff,d1
+    move.l #$0444,d1 ;$fff
 crc_setcolor
     bsr.w SetCharRowColor
     dbra d7,crc_loop    
