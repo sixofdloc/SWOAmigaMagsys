@@ -91,7 +91,7 @@ articles_menu_params:
     dc.l ntsc_menu,main_menu
     dc.l 0
 articles_menu_title:
-    dc.b 'ARTICLES MENU',0
+    dc.b 'ARTICLES',0
 articles_menu_option0
     dc.b 'Party Scene',0
 articles_menu_option1
@@ -138,7 +138,7 @@ party_menu_actions
 party_menu_params
     dc.l 3,4,5,6,main_menu,0
 party_menu_title:
-    dc.b 'PARTY MENU',0
+    dc.b 'PARTY REPORTS',0
 party_menu_option0
     dc.b 'Syntax 2017 Report',0
 party_menu_option1
@@ -157,31 +157,342 @@ party_menu_end:
 ;=============================================================================
 ;games scene menu structure
 games_scene_menu 
+    dc.l 5  ;top option #
+    dc.l games_scene_menu_optionaddrs
+    dc.l games_scene_menu_lengths
+    dc.l games_scene_menu_title
+    dc.l games_scene_menu_option0-games_scene_menu_title ;len of title
+    dc.l games_scene_menu_actions
+    dc.l games_scene_menu_params
+games_scene_menu_optionaddrs:
+    dc.l games_scene_menu_option0,games_scene_menu_option1
+    dc.l games_scene_menu_option2,games_scene_menu_option3
+    dc.l games_scene_menu_option4,games_scene_menu_option5
+games_scene_menu_lengths
+    dc.l (games_scene_menu_option1-games_scene_menu_option0)-1
+    dc.l (games_scene_menu_option2-games_scene_menu_option1)-1
+    dc.l (games_scene_menu_option3-games_scene_menu_option2)-1
+    dc.l (games_scene_menu_option4-games_scene_menu_option3)-1
+    dc.l (games_scene_menu_option5-games_scene_menu_option4)-1
+    dc.l (games_scene_menu_end-games_scene_menu_option5)-1
+games_scene_menu_actions
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
+games_scene_menu_params
+    dc.l 36,7,8,9
+    dc.l main_menu,0
+games_scene_menu_title:
+    dc.b 'GAMES SCENE',0
+games_scene_menu_option0
+    dc.b 'Game Reviews',0
+games_scene_menu_option1
+    dc.b '8-bit Philosophy Part 2',0
+games_scene_menu_option2
+    dc.b 'Let',$27,'s Make a Game 1',0
+games_scene_menu_option3
+    dc.b 'Let',$27,'s Make a Game 2',0
+games_scene_menu_option4
+    dc.b 31,'Back',0
+games_scene_menu_option5
+    dc.b 'Exit Menu',0
+games_scene_menu_end:
+    EVEN
 
 ;=============================================================================
-;games scene menu structure
+;games news menu structure
 games_news_menu 
+    dc.l 8  ;top option #
+    dc.l games_news_menu_optionaddrs
+    dc.l games_news_menu_lengths
+    dc.l games_news_menu_title
+    dc.l games_news_menu_option0-games_news_menu_title ;len of title
+    dc.l games_news_menu_actions
+    dc.l games_news_menu_params
+games_news_menu_optionaddrs:
+    dc.l games_news_menu_option0,games_news_menu_option1
+    dc.l games_news_menu_option2,games_news_menu_option3
+    dc.l games_news_menu_option4,games_news_menu_option5
+    dc.l games_news_menu_option6,games_news_menu_option7
+    dc.l games_news_menu_option8
+games_news_menu_lengths
+    dc.l (games_news_menu_option1-games_news_menu_option0)-1
+    dc.l (games_news_menu_option2-games_news_menu_option1)-1
+    dc.l (games_news_menu_option3-games_news_menu_option2)-1
+    dc.l (games_news_menu_option4-games_news_menu_option3)-1
+    dc.l (games_news_menu_option5-games_news_menu_option4)-1
+    dc.l (games_news_menu_option6-games_news_menu_option5)-1
+    dc.l (games_news_menu_option7-games_news_menu_option6)-1
+    dc.l (games_news_menu_option8-games_news_menu_option7)-1
+    dc.l (games_news_menu_end-games_news_menu_option8)-1
+games_news_menu_actions
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_CLOSEMENU
+games_news_menu_params
+    dc.l 10,11,12,13,14,15,16
+    dc.l main_menu,0
+games_news_menu_title:
+    dc.b 'GAMES NEWS',0
+games_news_menu_option0
+    dc.b 'Part 1',0
+games_news_menu_option1
+    dc.b 'Part 2',0
+games_news_menu_option2
+    dc.b 'Part 3',0
+games_news_menu_option3
+    dc.b 'Part 4',0
+games_news_menu_option4
+    dc.b 'Part 5',0
+games_news_menu_option5
+    dc.b 'Part 6',0
+games_news_menu_option6
+    dc.b 'Part 7',0
+games_news_menu_option7
+    dc.b 31,'Back',0
+games_news_menu_option8
+    dc.b 'Exit Menu',0
+games_news_menu_end:
+    EVEN
 
 ;=============================================================================
-;games scene menu structure
+;interviews menu structure
 interviews_menu 
-
+    dc.l 5  ;top option #
+    dc.l interviews_menu_optionaddrs
+    dc.l interviews_menu_lengths
+    dc.l interviews_menu_title
+    dc.l interviews_menu_option0-interviews_menu_title ;len of title
+    dc.l interviews_menu_actions
+    dc.l interviews_menu_params
+interviews_menu_optionaddrs:
+    dc.l interviews_menu_option0,interviews_menu_option1
+    dc.l interviews_menu_option2,interviews_menu_option3
+    dc.l interviews_menu_option4,interviews_menu_option5
+interviews_menu_lengths
+    dc.l (interviews_menu_option1-interviews_menu_option0)-1
+    dc.l (interviews_menu_option2-interviews_menu_option1)-1
+    dc.l (interviews_menu_option3-interviews_menu_option2)-1
+    dc.l (interviews_menu_option4-interviews_menu_option3)-1
+    dc.l (interviews_menu_option5-interviews_menu_option4)-1
+    dc.l (interviews_menu_end-interviews_menu_option5)-1
+interviews_menu_actions
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
+interviews_menu_params
+    dc.l john_menu,chris_menu,33,david_menu
+    dc.l main_menu,0
+interviews_menu_title:
+    dc.b 'INTERVIEWS',0
+interviews_menu_option0
+    dc.b 'John Chowning',0
+interviews_menu_option1
+    dc.b 'Christian Spanik',0
+interviews_menu_option2
+    dc.b 'Dennis Pauler',0
+interviews_menu_option3
+    dc.b 'David Pleasance',0
+interviews_menu_option4
+    dc.b 31,'Back',0
+interviews_menu_option5
+    dc.b 'Exit Menu',0
+interviews_menu_end:
+    EVEN
 ;=============================================================================
 ;John Chowning menu structure
 john_menu 
+   dc.l 4  ;top option #
+    dc.l john_menu_optionaddrs
+    dc.l john_menu_lengths
+    dc.l john_menu_title
+    dc.l john_menu_option0-john_menu_title ;len of title
+    dc.l john_menu_actions
+    dc.l john_menu_params
+john_menu_optionaddrs:
+    dc.l john_menu_option0,john_menu_option1
+    dc.l john_menu_option2,john_menu_option3
+    dc.l john_menu_option4
+john_menu_lengths
+    dc.l (john_menu_option1-john_menu_option0)-1
+    dc.l (john_menu_option2-john_menu_option1)-1
+    dc.l (john_menu_option3-john_menu_option2)-1
+    dc.l (john_menu_option4-john_menu_option3)-1
+    dc.l (john_menu_end-john_menu_option4)-1
+john_menu_actions
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_CLOSEMENU
+john_menu_params
+    dc.l 17,18,19
+    dc.l interviews_menu,0
+john_menu_title:
+    dc.b 'JOHN CHOWNING INTERVIEW',0
+john_menu_option0
+    dc.b 'Part 1',0
+john_menu_option1
+    dc.b 'Part 2',0
+john_menu_option2
+    dc.b 'Part 3',0
+john_menu_option3
+    dc.b 31,'Back',0
+john_menu_option4
+    dc.b 'Exit Menu',0
+john_menu_end:
+    EVEN
+
 
 ;=============================================================================
 ;Christian Spanik menu structure
 chris_menu 
+   dc.l 5  ;top option #
+    dc.l chris_menu_optionaddrs
+    dc.l chris_menu_lengths
+    dc.l chris_menu_title
+    dc.l chris_menu_option0-chris_menu_title ;len of title
+    dc.l chris_menu_actions
+    dc.l chris_menu_params
+chris_menu_optionaddrs:
+    dc.l chris_menu_option0,chris_menu_option1
+    dc.l chris_menu_option2,chris_menu_option3
+    dc.l chris_menu_option4,chris_menu_option5
+chris_menu_lengths
+    dc.l (chris_menu_option1-chris_menu_option0)-1
+    dc.l (chris_menu_option2-chris_menu_option1)-1
+    dc.l (chris_menu_option3-chris_menu_option2)-1
+    dc.l (chris_menu_option4-chris_menu_option3)-1
+    dc.l (chris_menu_option5-chris_menu_option4)-1
+    dc.l (chris_menu_end-chris_menu_option5)-1
+chris_menu_actions
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
+chris_menu_params
+    dc.l 20,21,22,23
+    dc.l interviews_menu,0
+chris_menu_title:
+    dc.b 'CHRISTIAN SPANIK INTERVIEW',0
+chris_menu_option0
+    dc.b 'Part 1',0
+chris_menu_option1
+    dc.b 'Part 2',0
+chris_menu_option2
+    dc.b 'Part 3',0
+chris_menu_option3
+    dc.b 'Part 4',0
+chris_menu_option4
+    dc.b 31,'Back',0
+chris_menu_option5
+    dc.b 'Exit Menu',0
+chris_menu_end:
+    EVEN
+
 
 ;=============================================================================
 ;David Pleasance menu structure
 david_menu 
-
+    dc.l 10  ;top option #
+    dc.l david_menu_optionaddrs
+    dc.l david_menu_lengths
+    dc.l david_menu_title
+    dc.l david_menu_option0-david_menu_title ;len of title
+    dc.l david_menu_actions
+    dc.l david_menu_params
+david_menu_optionaddrs:
+    dc.l david_menu_option0,david_menu_option1
+    dc.l david_menu_option2,david_menu_option3
+    dc.l david_menu_option4,david_menu_option5
+    dc.l david_menu_option6,david_menu_option7
+    dc.l david_menu_option8,david_menu_option9
+    dc.l david_menu_option10
+david_menu_lengths
+    dc.l (david_menu_option1-david_menu_option0)-1
+    dc.l (david_menu_option2-david_menu_option1)-1
+    dc.l (david_menu_option3-david_menu_option2)-1
+    dc.l (david_menu_option4-david_menu_option3)-1
+    dc.l (david_menu_option5-david_menu_option4)-1
+    dc.l (david_menu_option6-david_menu_option5)-1
+    dc.l (david_menu_option7-david_menu_option6)-1
+    dc.l (david_menu_option8-david_menu_option7)-1
+    dc.l (david_menu_option9-david_menu_option8)-1
+    dc.l (david_menu_option10-david_menu_option9)-1
+    dc.l (david_menu_end-david_menu_option10)-1
+david_menu_actions
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_CLOSEMENU
+david_menu_params
+    dc.l 24,25,26,27,28,29,30,31,32
+    dc.l interviews_menu,0
+david_menu_title:
+    dc.b 'DAVID PLEASANCE INTERVIEW',0
+david_menu_option0
+    dc.b 'Part 1',0
+david_menu_option1
+    dc.b 'Part 2',0
+david_menu_option2
+    dc.b 'Part 3',0
+david_menu_option3
+    dc.b 'Part 4',0
+david_menu_option4
+    dc.b 'Part 5',0
+david_menu_option5
+    dc.b 'Part 6',0
+david_menu_option6
+    dc.b 'Part 7',0
+david_menu_option7
+    dc.b 'Part 8',0
+david_menu_option8
+    dc.b 'Part 9',0
+david_menu_option9
+    dc.b 31,'Back',0
+david_menu_option10
+    dc.b 'Exit Menu',0
+david_menu_end:
+    EVEN
 
 ;=============================================================================
-;games scene menu structure
+;ntsc scene menu structure
 ntsc_menu 
+    dc.l 3  ;top option #
+    dc.l ntsc_menu_optionaddrs
+    dc.l ntsc_menu_lengths
+    dc.l ntsc_menu_title
+    dc.l ntsc_menu_option0-ntsc_menu_title ;len of title
+    dc.l ntsc_menu_actions
+    dc.l ntsc_menu_params
+ntsc_menu_optionaddrs:
+    dc.l ntsc_menu_option0,ntsc_menu_option1
+    dc.l ntsc_menu_option2,ntsc_menu_option3
+    
+ntsc_menu_lengths
+    dc.l (ntsc_menu_option1-ntsc_menu_option0)-1
+    dc.l (ntsc_menu_option2-ntsc_menu_option1)-1
+    dc.l (ntsc_menu_option3-ntsc_menu_option2)-1
+    dc.l (ntsc_menu_end-ntsc_menu_option3)-1
+ntsc_menu_actions
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
+ntsc_menu_params
+    dc.l 34,35
+    dc.l main_menu,0
+ntsc_menu_title:
+    dc.b 'NTSC SCENE',0
+ntsc_menu_option0
+    dc.b 'NTSC News 1',0
+ntsc_menu_option1
+    dc.b 'NTSC News 2',0
+ntsc_menu_option2
+    dc.b 31,'Back',0
+ntsc_menu_option3
+    dc.b 'Exit Menu',0
+ntsc_menu_end:
+    EVEN
     
 ;=============================================================================
 ;logo menu structure

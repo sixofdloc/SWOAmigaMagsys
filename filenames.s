@@ -109,6 +109,10 @@ articlefilename34:
     dc.b 'articles/ntsc1.vdo',0 
 articlefilename35:
     dc.b 'articles/ntsc2.vdo',0 
+
+;forgotten ones above
+articlefilename36:
+    dc.b 'articles/review.vdo',0
     
 articlefilenames:
     dc.l articlefilename0,articlefilename1,articlefilename2,articlefilename3
@@ -120,7 +124,7 @@ articlefilenames:
     dc.l articlefilename24,articlefilename25,articlefilename26,articlefilename27
     dc.l articlefilename28,articlefilename29,articlefilename30,articlefilename31
     dc.l articlefilename32,articlefilename33,articlefilename34,articlefilename35
-
+    dc.l articlefilename36
 
 ;=============================================================================
 ; Font filenames
@@ -212,6 +216,10 @@ fontfilename34:
     dc.b 'fonts/ntsc1.fon',0 
 fontfilename35:
     dc.b 'fonts/ntsc2.fon',0 
+
+;forgotten above
+fontfilename36:
+    dc.b 'fonts/review.fon',0
     
 fontfilenames:
     dc.l fontfilename0,fontfilename1,fontfilename2,fontfilename3
@@ -223,5 +231,6 @@ fontfilenames:
     dc.l fontfilename24,fontfilename25,fontfilename26,fontfilename27
     dc.l fontfilename28,fontfilename29,fontfilename30,fontfilename31
     dc.l fontfilename32,fontfilename33,fontfilename34,fontfilename35
+    dc.l fontfilename36
 
 
