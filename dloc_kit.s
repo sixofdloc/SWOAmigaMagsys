@@ -28,7 +28,7 @@ RestoreSystem:  lea $dff002,a5  ; custom chip base + 2
         move.w  OldINTEna,intena-2(a5)  ; restore old int bits
 
         move.l  OldView,a1  ; old Work Bench view
-        move.l  gfx_base,a6 ; gfx base
+        move.l  _GfxBase,a6 ; gfx base
         CALL    LoadView    ; Restore the view
         CALL    DisownBlitter   ; give blitter back to the system.
 
@@ -45,7 +45,7 @@ TakeSystem: movea.l 4.w,a6      ; exec base
         lea GraphicsName,a1 ; "graphics.library"
         moveq   #0,d0       ; any version
         CALL    OpenLibrary ; open it.
-        move.l  d0,gfx_base ; save pointer to gfx base
+        move.l  d0,_GfxBase ; save pointer to gfx base
         move.l  d0,a6       ; for later callls...
 
         move.l  gb_ActiView(a6),OldView ; save old view

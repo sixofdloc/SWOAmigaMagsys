@@ -2,13 +2,17 @@
 ; Music filenames
 ;=============================================================================
 modfilename0:
-    dc.b 'music/mod.the realm of love',0
+    dc.b 'sid/Dreaming_City-RICHARD.sid',0
+;    dc.b 'music/mod.the realm of love',0
 modfilename1:
-    dc.b 'music/mod.chipper i',0
+    dc.b 'sid/Like_A_Moon-Richard.sid',0
+;    dc.b 'music/mod.chipper i',0
 modfilename2:
-    dc.b 'music/mod.cucumber boogie+',0
+    dc.b 'sid/Rogue_Ninja.sid',0
+;    dc.b 'music/mod.cucumber boogie+',0
 modfilename3:
-    dc.b 'music/fyc.mod',0
+    dc.b 'sid/TheLastFrontier.sid',0
+;    dc.b 'music/fyc.mod',0
 
 modfilenames:
     dc.l modfilename0,modfilename1,modfilename2,modfilename3

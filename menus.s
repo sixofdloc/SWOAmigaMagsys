@@ -556,13 +556,13 @@ music_menu_params
 music_menu_title:
     dc.b 'MUSIC MENU',0
 music_menu_option0
-    dc.b 'The Realm Of Love',0
+    dc.b 'Dreaming City by Richard',0
 music_menu_option1
-    dc.b 'Chipper I',0
+    dc.b 'Like A Moon by Richard',0
 music_menu_option2
-    dc.b 'Cucumber Boogie',0
+    dc.b 'Rogue Ninja by Richard',0
 music_menu_option3
-    dc.b 'Feed Your Chicken',0
+    dc.b 'The Last Frontier by Richard',0
 music_menu_option4
     dc.b 'Silence',0
 music_menu_option5

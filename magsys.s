@@ -10,28 +10,25 @@
     include 'hardware/custom.i'
     include 'libraries/dos_lib.i'
     include 'libraries/dos.i'
+    include 'libraries/playsidbase.i'
+    include 'libraries/playsid_lib.i'
+
+MUSIC_SYSTEM EQU 0 ; 0 for SID, 1 for PT
 ;=============================================================================
 
 ScreenWidth     EQU 320
 ScreenHeight    EQU 256
 PT__Channels    EQU 4
-
+SysBase         EQU 4
 ;=============================================================================
     section  malt_vinegar,code
       
-    movea.l 4.w,a6      ; exec base
     lea $dff002,a5  ; custom chip base + 2
+    
+    jsr OpenLibs
 
-    lea GraphicsName,a1 ; "graphics.library"
-    moveq   #0,d0       ; any version
-    CALL    OpenLibrary ; open it.
-
-    lea DOSName,a1 
-    moveq   #1,d0       
-    CALL    OpenLibrary 
-    move.l  d0,_DOSBase 
     bsr.w InitMouse
-    move.l #0,d0
+    move.l #1,d0
     bsr.w LoadLogoNumber
     move.l #0,d0
     bsr.w LoadModNumber
@@ -40,22 +37,52 @@ PT__Channels    EQU 4
     bsr.W DisplayArticleText
     bsr.w InstallPointerSprite
     bsr.w SetupScreen    ; Setup Copperlist
-  
-    
+ 
     bsr.b  GetVBR      ; get the vector base pointer
     move.l d0,VectorBase   ; save it for later.
 
     move.l d0,a0
     move.l $6c(a0),OldIntSave
     move.l #VBlankInt,$6c(a0)
+    jmp MainLoop
 
 ;=============================================================================
+OpenLibs:
+    movea.l SysBase,a6      ; exec base
+    lea GraphicsName,a1 ; "graphics.library"
+    moveq   #0,d0       ; any version
+    CALL    OpenLibrary ; open it.
+    move.l d0,_GfxBase
+
+    movea.l SysBase,a6      ; exec base
+    lea DOSName,a1 
+    moveq   #1,d0       
+    CALL    OpenLibrary 
+    cmp.l #0,d0
+    move.l  d0,_DOSBase 
+
+    IFEQ MUSIC_SYSTEM
+        movea.l SysBase,a6      ; exec base
+        lea PlaySIDName,a1
+        moveq #0,d0
+        CALL OpenLibrary
+        move.l d0,_PlaySidBase
+        cmp.l #0,d0
+        beq nosidplaylib
+        CALLPLAYSID AllocEmulResource
+nosidplaylib:
+    ENDIF
+
+    rts
+
 MainLoop:
     WaitVRT
     ;   move.w   #$fff,$dff180
     cmp.l #1,loading_music
     beq noMusic
-    jsr   PT_Music    ; Make music
+    IFNE MUSIC_SYSTEM
+        jsr   PT_Music    ; Make music
+    ENDIF
 noMusic
     cmp.l #0,mouse_debounce
     bne NoMouseClickToHandle
@@ -69,7 +96,15 @@ NoMouseClickToHandle:
     move.l    VectorBase,a0
     move.l    OldIntSave,$6c(a0)
     bsr.w dlocRestoreSystem
-    jmp   PT_End         ; Shut off audio
+    IFNE MUSIC_SYSTEM
+        jmp   PT_End         ; Shut off audio
+    ELSE
+        move.l _PlaySidBase,d0
+        cmp.l #0,d0
+        beq nosidplaylibstop
+        CALLPLAYSID StopSong
+nosidplaylibstop
+    ENDIF    
     rts
 
 ;=============================================================================
@@ -96,8 +131,23 @@ no_debounce:
 
 ;=============================================================================
 InitMusic: 
-    lea.l Module,a0
-    jsr   PT_Init        ; Initialize replay
+    IFNE MUSIC_SYSTEM
+        lea.l Module,a0
+        jsr   PT_Init        ; Initialize replay
+    ELSE
+        move.l _PlaySidBase,d0
+        cmp.l #0,d0
+        beq nosidplaylibinit
+
+        lea Module,a0
+        lea Module,a1
+        move.l music_file_len,d0
+        CALLPLAYSID SetModule  
+        move.l #0,d0
+        CALLPLAYSID StartSong
+nosidplaylibinit:
+    ENDIF
+
     rts     
     
 SetupScreen:
@@ -289,10 +339,20 @@ fas_loop
     
 ;=============================================================================    
 LoadModNumber: ;expects mod # in d0
+    move.l d0,current_song
     move.l #1,loading_music
-    WaitVRT
-    WaitVRT
-    jsr PT_End
+    IFNE MUSIC_SYSTEM
+        WaitVRT
+        WaitVRT
+        jsr PT_End
+    ELSE 
+       move.l _PlaySidBase,d0
+        cmp.l #0,d0
+        beq nosidplayloadmod
+        CALLPLAYSID StopSong
+nosidplayloadmod
+    ENDIF
+    move.l current_song,d0
     lea modfilenames,a0
     move.l a0,d1
     asl.l #2,d0
@@ -300,8 +360,11 @@ LoadModNumber: ;expects mod # in d0
     move.l d1,a0
     move.l (a0),d1
     bsr.w LoadMod
+    move.l d6,music_file_len
     bsr.w InitMusic
     move.l #0,loading_music
+;lock
+;    jmp lock
     rts
     
 LoadMod: 
@@ -492,8 +555,14 @@ hmc_nomenu
 hmc_notmainmenu
     cmp.w #$d8,MouseX
     ble hmc_notmusicmenu
+    IFEQ MUSIC_SYSTEM
+        move.l _PlaySidBase,d0
+        cmp.l #0,d0
+        beq skipmusicmenu
+    ENDIF
     lea music_menu,a0
     bsr.w ShowMenu
+skipmusicmenu:
     rts
 hmc_notmusicmenu
     cmp.w #$d0,MouseX
@@ -573,12 +642,26 @@ hmenu_notarticle
     jmp hmc_exit
 hmenu_notmusic
     cmp.l #MENU_ACTION_LOGO,(a1)
-    bne hmenuclick_exit
+    bne hmenu_notlogo
     move.l (a2),d0
     jsr LoadLogoNumber
     jsr CloseMenu
     jmp hmc_exit
-
+hmenu_notlogo
+    cmp.l #MENU_ACTION_SILENCE,(a1)
+    bne hmenu_notsilence
+    IFNE MUSIC_SYSTEM
+        jsr PT_End
+    ELSE
+       move.l _PlaySidBase,d0
+        cmp.l #0,d0
+        beq nosidplaynotlogo
+        CALLPLAYSID StopSong
+nosidplaynotlogo
+    ENDIF
+    jsr CloseMenu
+    jmp hmc_exit
+hmenu_notsilence
 hmenuclick_exit
     rts
 

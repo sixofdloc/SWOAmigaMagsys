@@ -24,6 +24,9 @@ exitflag
 
 loading_music
     dc.l 0
+
+current_song
+    dc.l 0
     
 current_mouse_row
     dc.l 0
@@ -36,6 +39,9 @@ current_top_row ;currently displayed article row at top of screen
     dc.l 0
   
 mouse_debounce
+    dc.l 0
+
+music_file_len
     dc.l 0
 
     EVEN
@@ -61,20 +67,23 @@ ColorBarTable:
 
 
 
-EVEN
 LoadingText:
     dc.b 'LOADING',0
-
     EVEN
    
 ;library names
 GraphicsName:
     GRAFNAME
     EVEN
+
 DOSName:
     DOSNAME
-    
     EVEN
+
+PlaySIDName:
+    PLAYSIDNAME    
+    EVEN
+
 Article
     ds.b 128000,0
 
@@ -84,10 +93,12 @@ OldIntSave:
     ds.l    1
 Level3Save: 
     ds.l    1
-gfx_base    
+_GfxBase    
     ds.l    1       ; pointer to graphics base
 _DOSBase    
-    ds.l    1   
+    ds.l    1 
+_PlaySidBase
+    ds.l    1  
 OldView     
     ds.l    1       ; old Work Bench view addr.
 VectorBase: 
