@@ -27,96 +27,96 @@ logobasename:
 ; Article filenames
 ;=============================================================================
 articlefilename0:
-    dc.b 'articles/editorial.vdo',0 
+    dc.b 'articles/editorial.pak',0 
 articlefilename1:
-    dc.b 'articles/nafcom.vdo',0 
+    dc.b 'articles/nafcom.pak',0 
 articlefilename2:
-    dc.b 'articles/28info.vdo',0 
+    dc.b 'articles/28info.pak',0 
 ;party menu
 articlefilename3:
-    dc.b 'articles/syntax.vdo',0 
+    dc.b 'articles/syntax.pak',0 
 articlefilename4:
-    dc.b 'articles/revision.vdo',0 
+    dc.b 'articles/revision.pak',0 
 articlefilename5:
-    dc.b 'articles/homecon.vdo',0 
+    dc.b 'articles/homecon.pak',0 
 articlefilename6:
-    dc.b 'articles/expo.vdo',0 
+    dc.b 'articles/expo.pak',0 
 
 ;games scene menu
 articlefilename7:
-    dc.b 'articles/8bit.vdo',0 
+    dc.b 'articles/8bit.pak',0 
 articlefilename8:
-    dc.b 'articles/mkgm1.vdo',0
+    dc.b 'articles/mkgm1.pak',0
 articlefilename9:
-    dc.b 'articles/mkgm2.vdo',0 
+    dc.b 'articles/mkgm2.pak',0 
 
 ;games news menu
 articlefilename10:
-    dc.b 'articles/gnews1.vdo',0 
+    dc.b 'articles/gnews1.pak',0 
 articlefilename11:
-    dc.b 'articles/gnews2.vdo',0
+    dc.b 'articles/gnews2.pak',0
 articlefilename12:
-    dc.b 'articles/gnews3.vdo',0 
+    dc.b 'articles/gnews3.pak',0 
 articlefilename13:
-    dc.b 'articles/gnews4.vdo',0 
+    dc.b 'articles/gnews4.pak',0 
 articlefilename14:
-    dc.b 'articles/gnews5.vdo',0 
+    dc.b 'articles/gnews5.pak',0 
 articlefilename15:
-    dc.b 'articles/gnews6.vdo',0 
+    dc.b 'articles/gnews6.pak',0 
 articlefilename16:
-    dc.b 'articles/gnews7.vdo',0 
+    dc.b 'articles/gnews7.pak',0 
 
 ;interviews/John Chowning menu
 articlefilename17:
-    dc.b 'articles/john1.vdo',0 
+    dc.b 'articles/john1.pak',0 
 articlefilename18:
-    dc.b 'articles/john2.vdo',0 
+    dc.b 'articles/john2.pak',0 
 articlefilename19:
-    dc.b 'articles/john3.vdo',0 
+    dc.b 'articles/john3.pak',0 
 
 ;interviews/Christian Spanik
 articlefilename20:
-    dc.b 'articles/chris1.vdo',0 
+    dc.b 'articles/chris1.pak',0 
 articlefilename21:
-    dc.b 'articles/chris2.vdo',0 
+    dc.b 'articles/chris2.pak',0 
 articlefilename22:
-    dc.b 'articles/chris3.vdo',0 
+    dc.b 'articles/chris3.pak',0 
 articlefilename23:
-    dc.b 'articles/chris4.vdo',0 
+    dc.b 'articles/chris4.pak',0 
 
 ;interviews/David Pleasance
 articlefilename24:
-    dc.b 'articles/david1.vdo',0 
+    dc.b 'articles/david1.pak',0 
 articlefilename25:
-    dc.b 'articles/david2.vdo',0 
+    dc.b 'articles/david2.pak',0 
 articlefilename26:
-    dc.b 'articles/david3.vdo',0 
+    dc.b 'articles/david3.pak',0 
 articlefilename27:
-    dc.b 'articles/david4.vdo',0 
+    dc.b 'articles/david4.pak',0 
 articlefilename28:
-    dc.b 'articles/david5.vdo',0 
+    dc.b 'articles/david5.pak',0 
 articlefilename29:
-    dc.b 'articles/david6.vdo',0 
+    dc.b 'articles/david6.pak',0 
 articlefilename30:
-    dc.b 'articles/david7.vdo',0 
+    dc.b 'articles/david7.pak',0 
 articlefilename31:
-    dc.b 'articles/david8.vdo',0 
+    dc.b 'articles/david8.pak',0 
 articlefilename32:
-    dc.b 'articles/david9.vdo',0 
+    dc.b 'articles/david9.pak',0 
 
 ;interviews
 articlefilename33:
-    dc.b 'articles/dennis.vdo',0
+    dc.b 'articles/dennis.pak',0
 
 ;ntsc news
 articlefilename34:
-    dc.b 'articles/ntsc1.vdo',0 
+    dc.b 'articles/ntsc1.pak',0 
 articlefilename35:
-    dc.b 'articles/ntsc2.vdo',0 
+    dc.b 'articles/ntsc2.pak',0 
 
 ;forgotten ones above
 articlefilename36:
-    dc.b 'articles/review.vdo',0
+    dc.b 'articles/review.pak',0
     
 articlefilenames:
     dc.l articlefilename0,articlefilename1,articlefilename2,articlefilename3
