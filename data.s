@@ -10,7 +10,7 @@ charcolors
     dc.l charcolor17,charcolor18,charcolor19,charcolor20
 
 palette_temp:
-    ds.b 80,0
+    ds.b 64,0
  
 ;menu variables for mouseover
 menu_active
@@ -65,7 +65,22 @@ ColorBarTable:
     ds.w $80,0
     EVEN
 
+ErrorText:
+    dc.b 'DISK ERROR: ',0
+    EVEN
 
+Loading0:
+    dc.b 'Initializing Magsys...',13,10,0
+    EVEN
+Loading1:
+    dc.b 'Charging flux capacitor...',13,10,0
+    EVEN
+Loading2:
+    dc.b 'Arguing with leprechaun in sandbox...',13,10,0
+    EVEN
+Loading3:
+    dc.b 'Setting fire to CPU...',13,10,0
+    EVEN
 
 LoadingText:
     dc.b 'LOADING',0
@@ -87,6 +102,18 @@ PlaySIDName:
 Article
     ds.b 128000,0
 
+PlaySIDName:
+    PLAYSIDNAME    
+    EVEN
+
+Article
+    ds.b 64000,0
+LoadBuffer
+    ds.b 4,0
+;DepackedSize
+;    ds.b 2,0
+LoadedData
+    ds.b 64000,0
 
 ;        section DemoBSS,BSS
 OldIntSave: 

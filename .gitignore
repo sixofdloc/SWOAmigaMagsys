@@ -5,4 +5,7 @@ articles/*
 sid/*
 sid/
 *.sid
+test/*
+unpackedArticles/*
+unpackedLogos/*
 

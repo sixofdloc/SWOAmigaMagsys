@@ -26,19 +26,19 @@ MousePointer:
     dc.w $0000,$0000 
 Backdrop:
 Backdrop_plane_1:
-    incbin "logos/1a" ; default logo
+    ds.b 2560,0;incbin "logos/1a" ; default logo
     ds.b 7240,0
     incbin "graphics/mba" ;menubar graphic
 Backdrop_plane_2:
-    incbin "logos/1b" 
+    ds.b 2560,0;incbin "logos/1b" 
     ds.b 7240,0
     incbin "graphics/mbb"
 Backdrop_plane_3:
-    incbin "logos/1c" 
+    ds.b 2560,0;incbin "logos/1c" 
     ds.b 7240,0
     incbin "graphics/mbc"
 Backdrop_plane_4:
-    incbin "logos/1d" 
+    ds.b 2560,0;incbin "logos/1d" 
     ds.b 7240,0
     incbin "graphics/mbd"
 
