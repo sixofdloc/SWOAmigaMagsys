@@ -100,13 +100,6 @@ PlaySIDName:
     EVEN
 
 Article
-    ds.b 128000,0
-
-PlaySIDName:
-    PLAYSIDNAME    
-    EVEN
-
-Article
     ds.b 64000,0
 LoadBuffer
     ds.b 4,0
