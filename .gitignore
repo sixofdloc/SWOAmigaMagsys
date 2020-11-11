@@ -1,3 +1,8 @@
 include/
 music/*
+magsys
+articles/*
+sid/*
+sid/
+*.sid
 

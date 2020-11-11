@@ -21,38 +21,46 @@ MENU_ACTION_LOGO        EQU 6
 ;=============================================================================
 ;main menu structure
 main_menu
-    dc.l 5  ;top option #
+    dc.l ((main_menu_params - main_menu_actions)/4)-1 ; number of menu options in this menu
     dc.l main_menu_optionaddrs
     dc.l main_menu_lengths
     dc.l main_menu_title
-    dc.l 9 ;len of title
+    dc.l main_menu_option0 - main_menu_title ;len of title
     dc.l main_menu_actions
     dc.l main_menu_params
 main_menu_optionaddrs:
-    dc.l main_menu_option0,main_menu_option1,main_menu_option2,main_menu_option3
-    dc.l main_menu_option4,main_menu_option5
+    dc.l main_menu_option0,main_menu_option1,main_menu_articles,main_menu_information
+    dc.l main_menu_exit_menu,main_menu_exit_magazine
 main_menu_lengths
-    dc.l (main_menu_option1-main_menu_option0)-1,(main_menu_option2-main_menu_option1)-1
-    dc.l (main_menu_option3-main_menu_option2)-1,(main_menu_option4-main_menu_option3)-1
-    dc.l (main_menu_option5-main_menu_option4)-1,(main_menu_end-main_menu_option5)-1
+    dc.l (main_menu_option1-main_menu_option0)-1,(main_menu_articles-main_menu_option1)-1
+    dc.l (main_menu_information-main_menu_articles)-1,(main_menu_exit_menu-main_menu_information)-1
+    dc.l (main_menu_exit_magazine-main_menu_exit_menu)-1,(main_menu_end-main_menu_exit_magazine)-1
 main_menu_actions
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU
-    dc.l MENU_ACTION_CLOSEMENU,MENU_ACTION_EXITMAGSYS
+    dc.l MENU_ACTION_ARTICLE ;Editorial
+    dc.l MENU_ACTION_ARTICLE ;Feedback
+    dc.l MENU_ACTION_SPAWNMENU ;Articles
+    dc.l MENU_ACTION_ARTICLE ; Information
+    dc.l MENU_ACTION_CLOSEMENU ;Exit Menu
+    dc.l MENU_ACTION_EXITMAGSYS ;Exit Magazine
 main_menu_params
-    dc.l 0,1,2,articles_menu,0,0
+    dc.l 0 ;editorial
+    dc.l 1 ;feedback
+    dc.l articles_menu
+    dc.l 2 ;information
+    dc.l 0,0 ;exit menu, exit magazine
 main_menu_title:
     dc.b 'MAIN MENU',0
 main_menu_option0
-    dc.b 'Editorial by Scorpion',0
+    dc.b 'Editorial',0
 main_menu_option1
-    dc.b 'Editorial by Nafcom',0
-main_menu_option2
-    dc.b 'Information',0
-main_menu_option3
+    dc.b 'Feedback',0
+main_menu_articles
     dc.b 'Articles',0
-main_menu_option4
+main_menu_information
+    dc.b 'Information',0
+main_menu_exit_menu
     dc.b 'Exit Menu',0
-main_menu_option5
+main_menu_exit_magazine
     dc.b 'Exit Magazine',0
 main_menu_end:
     EVEN
@@ -60,7 +68,7 @@ main_menu_end:
 ;=============================================================================
 ;articles menu structure
 articles_menu
-    dc.l 6  ;top option #
+    dc.l ((articles_menu_params - articles_menu_actions)/4)-1 ; number of menu options in this menu
     dc.l articles_menu_optionaddrs
     dc.l articles_menu_lengths
     dc.l articles_menu_title
@@ -70,26 +78,29 @@ articles_menu
 articles_menu_optionaddrs:
     dc.l articles_menu_option0,articles_menu_option1
     dc.l articles_menu_option2,articles_menu_option3
-    dc.l articles_menu_option4,articles_menu_option5
-    dc.l articles_menu_option6
+    dc.l articles_menu_option4
+    dc.l articles_menu_back,articles_menu_exit ;back, exit
 articles_menu_lengths
     dc.l (articles_menu_option1 - articles_menu_option0)-1
     dc.l (articles_menu_option2 - articles_menu_option1)-1
     dc.l (articles_menu_option3 - articles_menu_option2)-1
     dc.l (articles_menu_option4 - articles_menu_option3)-1
-    dc.l (articles_menu_option5 - articles_menu_option4)-1
-    dc.l (articles_menu_option6 - articles_menu_option5)-1
-    dc.l (articles_menu_end     - articles_menu_option6)-1
+    dc.l (articles_menu_back - articles_menu_option4)-1
+    dc.l (articles_menu_exit - articles_menu_back)-1,(articles_menu_end  - articles_menu_exit)-1 ;back, exit
 articles_menu_actions:
-    dc.l MENU_ACTION_SPAWNMENU, MENU_ACTION_SPAWNMENU
-    dc.l MENU_ACTION_SPAWNMENU, MENU_ACTION_SPAWNMENU
-    dc.l MENU_ACTION_SPAWNMENU, MENU_ACTION_SPAWNMENU
-    dc.l MENU_ACTION_CLOSEMENU
+    dc.l MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU ;back, exit
 articles_menu_params:
-    dc.l party_menu,games_scene_menu
-    dc.l games_news_menu, interviews_menu
-    dc.l ntsc_menu,main_menu
-    dc.l 0
+    dc.l party_menu
+    dc.l games_menu
+    dc.l hardware_menu
+    dc.l interviews_menu
+    dc.l music_scene_menu
+    dc.l main_menu, 0 ;back, exit
 articles_menu_title:
     dc.b 'ARTICLES',0
 articles_menu_option0
@@ -97,14 +108,14 @@ articles_menu_option0
 articles_menu_option1
     dc.b 'Games Scene',0
 articles_menu_option2
-    dc.b 'Games News',0
+    dc.b 'Hardware Scene',0
 articles_menu_option3
     dc.b 'Interviews',0
 articles_menu_option4
-    dc.b 'NTSC Scene',0
-articles_menu_option5
+    dc.b 'Music Scene',0
+articles_menu_back
     dc.b 31,'Back',0
-articles_menu_option6
+articles_menu_exit
     dc.b 'Exit Menu',0
 articles_menu_end:
     EVEN
@@ -113,7 +124,7 @@ articles_menu_end:
 ;=============================================================================
 ;party menu structure
 party_menu
-    dc.l 5  ;top option #
+    dc.l ((party_menu_params - party_menu_actions)/4)-1 ; number of menu options in this menu
     dc.l party_menu_optionaddrs
     dc.l party_menu_lengths
     dc.l party_menu_title
@@ -121,146 +132,132 @@ party_menu
     dc.l party_menu_actions
     dc.l party_menu_params
 party_menu_optionaddrs:
-    dc.l party_menu_option0,party_menu_option1
-    dc.l party_menu_option2,party_menu_option3
-    dc.l party_menu_option4,party_menu_option5
+    dc.l party_menu_option0
+    dc.l party_menu_back
+    dc.l party_menu_exit
 party_menu_lengths
-    dc.l (party_menu_option1-party_menu_option0)-1
-    dc.l (party_menu_option2-party_menu_option1)-1
-    dc.l (party_menu_option3-party_menu_option2)-1
-    dc.l (party_menu_option4-party_menu_option3)-1
-    dc.l (party_menu_option5-party_menu_option4)-1
-    dc.l (party_menu_end-party_menu_option5)-1
+    dc.l (party_menu_back-party_menu_option0)-1
+    dc.l (party_menu_exit-party_menu_back)-1,(party_menu_end-party_menu_exit)-1 ;back, exit
 party_menu_actions
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU ;back, exit
 party_menu_params
-    dc.l 3,4,5,6,main_menu,0
+    dc.l 9
+    dc.l main_menu, 0 ;back, exit
 party_menu_title:
-    dc.b 'PARTY REPORTS',0
+    dc.b 'PARTY SCENE',0
 party_menu_option0
-    dc.b 'Syntax 2017 Report',0
-party_menu_option1
-    dc.b 'Revision 2017 Report',0
-party_menu_option2
-    dc.b 'Homecon',0
-party_menu_option3
-    dc.b 'Play Expo 2017',0
-party_menu_option4
+    dc.b 'Gamescom 2019 Report',0
+party_menu_back
     dc.b 31,'Back',0
-party_menu_option5
+party_menu_exit
     dc.b 'Exit Menu',0
 party_menu_end:
     EVEN
 
 ;=============================================================================
 ;games scene menu structure
-games_scene_menu 
-    dc.l 5  ;top option #
-    dc.l games_scene_menu_optionaddrs
-    dc.l games_scene_menu_lengths
-    dc.l games_scene_menu_title
-    dc.l games_scene_menu_option0-games_scene_menu_title ;len of title
-    dc.l games_scene_menu_actions
-    dc.l games_scene_menu_params
-games_scene_menu_optionaddrs:
-    dc.l games_scene_menu_option0,games_scene_menu_option1
-    dc.l games_scene_menu_option2,games_scene_menu_option3
-    dc.l games_scene_menu_option4,games_scene_menu_option5
-games_scene_menu_lengths
-    dc.l (games_scene_menu_option1-games_scene_menu_option0)-1
-    dc.l (games_scene_menu_option2-games_scene_menu_option1)-1
-    dc.l (games_scene_menu_option3-games_scene_menu_option2)-1
-    dc.l (games_scene_menu_option4-games_scene_menu_option3)-1
-    dc.l (games_scene_menu_option5-games_scene_menu_option4)-1
-    dc.l (games_scene_menu_end-games_scene_menu_option5)-1
-games_scene_menu_actions
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+games_menu 
+    dc.l ((games_menu_params - games_menu_actions)/4)-1 ; number of menu options in this menu
+    dc.l games_menu_optionaddrs
+    dc.l games_menu_lengths
+    dc.l games_menu_title
+    dc.l games_menu_option0-games_menu_title ;len of title
+    dc.l games_menu_actions
+    dc.l games_menu_params
+games_menu_optionaddrs:
+    dc.l games_menu_option0
+    dc.l games_menu_option1
+    dc.l games_menu_option2
+    dc.l games_menu_option3
+    dc.l games_menu_option4
+    dc.l games_menu_option5
+
+    dc.l games_menu_back,games_menu_exit
+games_menu_lengths
+    dc.l (games_menu_option1-games_menu_option0)-1
+    dc.l (games_menu_option2-games_menu_option1)-1
+    dc.l (games_menu_option3-games_menu_option2)-1
+    dc.l (games_menu_option4-games_menu_option3)-1
+    dc.l (games_menu_option5-games_menu_option4)-1
+    dc.l (games_menu_back-games_menu_option5)-1
+
+    dc.l (games_menu_exit-games_menu_back)-1,(games_menu_end-games_menu_exit)-1
+games_menu_actions
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE
+
     dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
-games_scene_menu_params
-    dc.l 36,7,8,9
+games_menu_params
+    dc.l 9
+    dc.l 9
+    dc.l 9
+    dc.l 9
+    dc.l 9
+    dc.l 9
     dc.l main_menu,0
-games_scene_menu_title:
+games_menu_title:
     dc.b 'GAMES SCENE',0
-games_scene_menu_option0
-    dc.b 'Game Reviews',0
-games_scene_menu_option1
-    dc.b '8-bit Philosophy Part 2',0
-games_scene_menu_option2
-    dc.b 'Let',$27,'s Make a Game 1',0
-games_scene_menu_option3
-    dc.b 'Let',$27,'s Make a Game 2',0
-games_scene_menu_option4
+games_menu_option0
+    dc.b 'Game News 1',0
+games_menu_option1
+    dc.b 'Game News 2',0
+games_menu_option2
+    dc.b 'Game News 3',0
+games_menu_option3
+    dc.b 'Game News 4',0
+games_menu_option4
+    dc.b 'Game News 5',0
+games_menu_option5
+    dc.b 'TheC64 Programming Challenge',0
+games_menu_back
     dc.b 31,'Back',0
-games_scene_menu_option5
+games_menu_exit
     dc.b 'Exit Menu',0
-games_scene_menu_end:
+games_menu_end:
     EVEN
 
 ;=============================================================================
 ;games news menu structure
-games_news_menu 
-    dc.l 8  ;top option #
-    dc.l games_news_menu_optionaddrs
-    dc.l games_news_menu_lengths
-    dc.l games_news_menu_title
-    dc.l games_news_menu_option0-games_news_menu_title ;len of title
-    dc.l games_news_menu_actions
-    dc.l games_news_menu_params
-games_news_menu_optionaddrs:
-    dc.l games_news_menu_option0,games_news_menu_option1
-    dc.l games_news_menu_option2,games_news_menu_option3
-    dc.l games_news_menu_option4,games_news_menu_option5
-    dc.l games_news_menu_option6,games_news_menu_option7
-    dc.l games_news_menu_option8
-games_news_menu_lengths
-    dc.l (games_news_menu_option1-games_news_menu_option0)-1
-    dc.l (games_news_menu_option2-games_news_menu_option1)-1
-    dc.l (games_news_menu_option3-games_news_menu_option2)-1
-    dc.l (games_news_menu_option4-games_news_menu_option3)-1
-    dc.l (games_news_menu_option5-games_news_menu_option4)-1
-    dc.l (games_news_menu_option6-games_news_menu_option5)-1
-    dc.l (games_news_menu_option7-games_news_menu_option6)-1
-    dc.l (games_news_menu_option8-games_news_menu_option7)-1
-    dc.l (games_news_menu_end-games_news_menu_option8)-1
-games_news_menu_actions
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU
-    dc.l MENU_ACTION_CLOSEMENU
-games_news_menu_params
-    dc.l 10,11,12,13,14,15,16
-    dc.l main_menu,0
-games_news_menu_title:
-    dc.b 'GAMES NEWS',0
-games_news_menu_option0
-    dc.b 'Part 1',0
-games_news_menu_option1
-    dc.b 'Part 2',0
-games_news_menu_option2
-    dc.b 'Part 3',0
-games_news_menu_option3
-    dc.b 'Part 4',0
-games_news_menu_option4
-    dc.b 'Part 5',0
-games_news_menu_option5
-    dc.b 'Part 6',0
-games_news_menu_option6
-    dc.b 'Part 7',0
-games_news_menu_option7
+hardware_menu 
+    dc.l ((hardware_menu_params - hardware_menu_actions)/4)-1 ; number of menu options in this menu
+    dc.l hardware_menu_optionaddrs
+    dc.l hardware_menu_lengths
+    dc.l hardware_menu_title
+    dc.l hardware_menu_option0-hardware_menu_title ;len of title
+    dc.l hardware_menu_actions
+    dc.l hardware_menu_params
+hardware_menu_optionaddrs:
+    dc.l hardware_menu_option0
+    dc.l hardware_menu_back, hardware_menu_exit ;back, exit
+hardware_menu_lengths
+    dc.l (hardware_menu_back-hardware_menu_option0)-1
+    dc.l (hardware_menu_exit-hardware_menu_back)-1, (hardware_menu_end-hardware_menu_exit)-1 ;back, exit
+hardware_menu_actions
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU ;back, exit
+hardware_menu_params
+    dc.l 9
+    dc.l main_menu,0 ;back, exit
+hardware_menu_title:
+    dc.b 'HARDWARE SCENE',0
+hardware_menu_option0
+    dc.b 'TheC64 Unboxing',0
+hardware_menu_back
     dc.b 31,'Back',0
-games_news_menu_option8
+hardware_menu_exit
     dc.b 'Exit Menu',0
-games_news_menu_end:
+hardware_menu_end:
     EVEN
 
 ;=============================================================================
 ;interviews menu structure
 interviews_menu 
-    dc.l 5  ;top option #
+    dc.l ((interviews_menu_params - interviews_menu_actions)/4)-1 ; number of menu options in this menu
     dc.l interviews_menu_optionaddrs
     dc.l interviews_menu_lengths
     dc.l interviews_menu_title
@@ -268,230 +265,175 @@ interviews_menu
     dc.l interviews_menu_actions
     dc.l interviews_menu_params
 interviews_menu_optionaddrs:
-    dc.l interviews_menu_option0,interviews_menu_option1
-    dc.l interviews_menu_option2,interviews_menu_option3
-    dc.l interviews_menu_option4,interviews_menu_option5
+    dc.l interviews_menu_option0
+    dc.l interviews_menu_option1
+    dc.l interviews_menu_back,interviews_menu_exit ;back, exit
 interviews_menu_lengths
     dc.l (interviews_menu_option1-interviews_menu_option0)-1
-    dc.l (interviews_menu_option2-interviews_menu_option1)-1
-    dc.l (interviews_menu_option3-interviews_menu_option2)-1
-    dc.l (interviews_menu_option4-interviews_menu_option3)-1
-    dc.l (interviews_menu_option5-interviews_menu_option4)-1
-    dc.l (interviews_menu_end-interviews_menu_option5)-1
+    dc.l (interviews_menu_back-interviews_menu_option1)-1
+    dc.l (interviews_menu_exit-interviews_menu_back)-1,(interviews_menu_end-interviews_menu_exit)-1 ;back, exit
 interviews_menu_actions
-    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_SPAWNMENU
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU
-    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
+    dc.l MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_SPAWNMENU
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU ;back, exit
 interviews_menu_params
-    dc.l john_menu,chris_menu,33,david_menu
-    dc.l main_menu,0
+    dc.l wolfgang_menu
+    dc.l biggi_menu
+    dc.l main_menu,0 ;back, exit
 interviews_menu_title:
     dc.b 'INTERVIEWS',0
 interviews_menu_option0
-    dc.b 'John Chowning',0
+    dc.b 'Wolfgang Back',0
 interviews_menu_option1
-    dc.b 'Christian Spanik',0
-interviews_menu_option2
-    dc.b 'Dennis Pauler',0
-interviews_menu_option3
-    dc.b 'David Pleasance',0
-interviews_menu_option4
+    dc.b 'Biggi Lechtermann',0
+interviews_menu_back
     dc.b 31,'Back',0
-interviews_menu_option5
+interviews_menu_exit
     dc.b 'Exit Menu',0
 interviews_menu_end:
     EVEN
+
 ;=============================================================================
-;John Chowning menu structure
-john_menu 
-   dc.l 4  ;top option #
-    dc.l john_menu_optionaddrs
-    dc.l john_menu_lengths
-    dc.l john_menu_title
-    dc.l john_menu_option0-john_menu_title ;len of title
-    dc.l john_menu_actions
-    dc.l john_menu_params
-john_menu_optionaddrs:
-    dc.l john_menu_option0,john_menu_option1
-    dc.l john_menu_option2,john_menu_option3
-    dc.l john_menu_option4
-john_menu_lengths
-    dc.l (john_menu_option1-john_menu_option0)-1
-    dc.l (john_menu_option2-john_menu_option1)-1
-    dc.l (john_menu_option3-john_menu_option2)-1
-    dc.l (john_menu_option4-john_menu_option3)-1
-    dc.l (john_menu_end-john_menu_option4)-1
-john_menu_actions
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU
-    dc.l MENU_ACTION_CLOSEMENU
-john_menu_params
-    dc.l 17,18,19
-    dc.l interviews_menu,0
-john_menu_title:
+;Wolfgang Back menu structure
+wolfgang_menu 
+    dc.l ((wolfgang_menu_params - wolfgang_menu_actions)/4)-1 ; number of menu options in this menu
+    dc.l wolfgang_menu_optionaddrs
+    dc.l wolfgang_menu_lengths
+    dc.l wolfgang_menu_title
+    dc.l wolfgang_menu_option0-wolfgang_menu_title ;len of title
+    dc.l wolfgang_menu_actions
+    dc.l wolfgang_menu_params
+wolfgang_menu_optionaddrs:
+    dc.l wolfgang_menu_option0,wolfgang_menu_option1
+    dc.l wolfgang_menu_option2,wolfgang_menu_option3
+    dc.l wolfgang_menu_option4,wolfgang_menu_option5
+    dc.l wolfgang_menu_back,wolfgang_menu_exit ;back, exit
+wolfgang_menu_lengths
+    dc.l (wolfgang_menu_option1-wolfgang_menu_option0)-1
+    dc.l (wolfgang_menu_option2-wolfgang_menu_option1)-1
+    dc.l (wolfgang_menu_option3-wolfgang_menu_option2)-1
+    dc.l (wolfgang_menu_option4-wolfgang_menu_option3)-1
+    dc.l (wolfgang_menu_option5-wolfgang_menu_option4)-1
+    dc.l (wolfgang_menu_back-wolfgang_menu_option5)-1
+    dc.l (wolfgang_menu_exit-wolfgang_menu_back)-1,(wolfgang_menu_end-wolfgang_menu_exit)-1 ;back, exit
+wolfgang_menu_actions
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU ;back, exit
+wolfgang_menu_params
+    dc.l 9
+    dc.l 9
+    dc.l 9
+    dc.l 9
+    dc.l 9
+    dc.l 9
+    dc.l interviews_menu,0 ;back, exit
+wolfgang_menu_title:
     dc.b 'JOHN CHOWNING INTERVIEW',0
-john_menu_option0
+wolfgang_menu_option0
     dc.b 'Part 1',0
-john_menu_option1
+wolfgang_menu_option1
     dc.b 'Part 2',0
-john_menu_option2
+wolfgang_menu_option2
     dc.b 'Part 3',0
-john_menu_option3
-    dc.b 31,'Back',0
-john_menu_option4
-    dc.b 'Exit Menu',0
-john_menu_end:
-    EVEN
-
-
-;=============================================================================
-;Christian Spanik menu structure
-chris_menu 
-   dc.l 5  ;top option #
-    dc.l chris_menu_optionaddrs
-    dc.l chris_menu_lengths
-    dc.l chris_menu_title
-    dc.l chris_menu_option0-chris_menu_title ;len of title
-    dc.l chris_menu_actions
-    dc.l chris_menu_params
-chris_menu_optionaddrs:
-    dc.l chris_menu_option0,chris_menu_option1
-    dc.l chris_menu_option2,chris_menu_option3
-    dc.l chris_menu_option4,chris_menu_option5
-chris_menu_lengths
-    dc.l (chris_menu_option1-chris_menu_option0)-1
-    dc.l (chris_menu_option2-chris_menu_option1)-1
-    dc.l (chris_menu_option3-chris_menu_option2)-1
-    dc.l (chris_menu_option4-chris_menu_option3)-1
-    dc.l (chris_menu_option5-chris_menu_option4)-1
-    dc.l (chris_menu_end-chris_menu_option5)-1
-chris_menu_actions
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
-chris_menu_params
-    dc.l 20,21,22,23
-    dc.l interviews_menu,0
-chris_menu_title:
-    dc.b 'CHRISTIAN SPANIK INTERVIEW',0
-chris_menu_option0
-    dc.b 'Part 1',0
-chris_menu_option1
-    dc.b 'Part 2',0
-chris_menu_option2
-    dc.b 'Part 3',0
-chris_menu_option3
+wolfgang_menu_option3
     dc.b 'Part 4',0
-chris_menu_option4
-    dc.b 31,'Back',0
-chris_menu_option5
-    dc.b 'Exit Menu',0
-chris_menu_end:
-    EVEN
-
-
-;=============================================================================
-;David Pleasance menu structure
-david_menu 
-    dc.l 10  ;top option #
-    dc.l david_menu_optionaddrs
-    dc.l david_menu_lengths
-    dc.l david_menu_title
-    dc.l david_menu_option0-david_menu_title ;len of title
-    dc.l david_menu_actions
-    dc.l david_menu_params
-david_menu_optionaddrs:
-    dc.l david_menu_option0,david_menu_option1
-    dc.l david_menu_option2,david_menu_option3
-    dc.l david_menu_option4,david_menu_option5
-    dc.l david_menu_option6,david_menu_option7
-    dc.l david_menu_option8,david_menu_option9
-    dc.l david_menu_option10
-david_menu_lengths
-    dc.l (david_menu_option1-david_menu_option0)-1
-    dc.l (david_menu_option2-david_menu_option1)-1
-    dc.l (david_menu_option3-david_menu_option2)-1
-    dc.l (david_menu_option4-david_menu_option3)-1
-    dc.l (david_menu_option5-david_menu_option4)-1
-    dc.l (david_menu_option6-david_menu_option5)-1
-    dc.l (david_menu_option7-david_menu_option6)-1
-    dc.l (david_menu_option8-david_menu_option7)-1
-    dc.l (david_menu_option9-david_menu_option8)-1
-    dc.l (david_menu_option10-david_menu_option9)-1
-    dc.l (david_menu_end-david_menu_option10)-1
-david_menu_actions
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_SPAWNMENU
-    dc.l MENU_ACTION_CLOSEMENU
-david_menu_params
-    dc.l 24,25,26,27,28,29,30,31,32
-    dc.l interviews_menu,0
-david_menu_title:
-    dc.b 'DAVID PLEASANCE INTERVIEW',0
-david_menu_option0
-    dc.b 'Part 1',0
-david_menu_option1
-    dc.b 'Part 2',0
-david_menu_option2
-    dc.b 'Part 3',0
-david_menu_option3
-    dc.b 'Part 4',0
-david_menu_option4
+wolfgang_menu_option4
     dc.b 'Part 5',0
-david_menu_option5
+wolfgang_menu_option5
     dc.b 'Part 6',0
-david_menu_option6
-    dc.b 'Part 7',0
-david_menu_option7
-    dc.b 'Part 8',0
-david_menu_option8
-    dc.b 'Part 9',0
-david_menu_option9
+wolfgang_menu_back
     dc.b 31,'Back',0
-david_menu_option10
+wolfgang_menu_exit
     dc.b 'Exit Menu',0
-david_menu_end:
+wolfgang_menu_end:
     EVEN
 
+
 ;=============================================================================
-;ntsc scene menu structure
-ntsc_menu 
-    dc.l 3  ;top option #
-    dc.l ntsc_menu_optionaddrs
-    dc.l ntsc_menu_lengths
-    dc.l ntsc_menu_title
-    dc.l ntsc_menu_option0-ntsc_menu_title ;len of title
-    dc.l ntsc_menu_actions
-    dc.l ntsc_menu_params
-ntsc_menu_optionaddrs:
-    dc.l ntsc_menu_option0,ntsc_menu_option1
-    dc.l ntsc_menu_option2,ntsc_menu_option3
-    
-ntsc_menu_lengths
-    dc.l (ntsc_menu_option1-ntsc_menu_option0)-1
-    dc.l (ntsc_menu_option2-ntsc_menu_option1)-1
-    dc.l (ntsc_menu_option3-ntsc_menu_option2)-1
-    dc.l (ntsc_menu_end-ntsc_menu_option3)-1
-ntsc_menu_actions
+;Biggi Lechtermann menu structure
+biggi_menu 
+    dc.l ((biggi_menu_params - biggi_menu_actions)/4)-1 ; number of menu options in this menu
+    dc.l biggi_menu_optionaddrs
+    dc.l biggi_menu_lengths
+    dc.l biggi_menu_title
+    dc.l biggi_menu_option0-biggi_menu_title ;len of title
+    dc.l biggi_menu_actions
+    dc.l biggi_menu_params
+biggi_menu_optionaddrs:
+    dc.l biggi_menu_option0,biggi_menu_option1
+    dc.l biggi_menu_option2,biggi_menu_option3
+    dc.l biggi_menu_back,biggi_menu_exit ;back, exit
+biggi_menu_lengths
+    dc.l (biggi_menu_option1-biggi_menu_option0)-1
+    dc.l (biggi_menu_option2-biggi_menu_option1)-1
+    dc.l (biggi_menu_option3-biggi_menu_option2)-1
+    dc.l (biggi_menu_back-biggi_menu_option3)-1
+    dc.l (biggi_menu_exit-biggi_menu_back)-1,(biggi_menu_end-biggi_menu_exit)-1 ;back, exit
+biggi_menu_actions
     dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
-    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
-ntsc_menu_params
-    dc.l 34,35
-    dc.l main_menu,0
-ntsc_menu_title:
-    dc.b 'NTSC SCENE',0
-ntsc_menu_option0
-    dc.b 'NTSC News 1',0
-ntsc_menu_option1
-    dc.b 'NTSC News 2',0
-ntsc_menu_option2
+    dc.l MENU_ACTION_ARTICLE,MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU ; back, exit
+biggi_menu_params
+    dc.l 9
+    dc.l 9
+    dc.l 9
+    dc.l 9
+    dc.l interviews_menu,0 ;back, exit
+biggi_menu_title:
+    dc.b 'CHRISTIAN SPANIK INTERVIEW',0
+biggi_menu_option0
+    dc.b 'Part 1',0
+biggi_menu_option1
+    dc.b 'Part 2',0
+biggi_menu_option2
+    dc.b 'Part 3',0
+biggi_menu_option3
+    dc.b 'Part 4',0
+biggi_menu_back
     dc.b 31,'Back',0
-ntsc_menu_option3
+biggi_menu_exit
     dc.b 'Exit Menu',0
-ntsc_menu_end:
+biggi_menu_end:
+    EVEN
+
+
+
+;=============================================================================
+;music scene menu structure
+music_scene_menu 
+    dc.l ((music_scene_menu_params - music_scene_menu_actions)/4)-1 ; number of menu options in this menu
+    dc.l music_scene_menu_optionaddrs
+    dc.l music_scene_menu_lengths
+    dc.l music_scene_menu_title
+    dc.l music_scene_menu_option0-music_scene_menu_title ;len of title
+    dc.l music_scene_menu_actions
+    dc.l music_scene_menu_params
+music_scene_menu_optionaddrs:
+    dc.l music_scene_menu_option0
+    dc.l music_scene_menu_back,music_scene_menu_exit
+music_scene_menu_lengths
+    dc.l (music_scene_menu_back-music_scene_menu_option0)-1
+    dc.l (music_scene_menu_exit-music_scene_menu_back)-1,(music_scene_menu_end-music_scene_menu_exit)-1 ;back, exit
+music_scene_menu_actions
+    dc.l MENU_ACTION_ARTICLE
+    dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
+music_scene_menu_params
+    dc.l 9
+    dc.l main_menu,0
+music_scene_menu_title:
+    dc.b 'MUSIC SCENE',0
+music_scene_menu_option0
+    dc.b 'Welle:Erdball Concert',0
+music_scene_menu_back
+    dc.b 31,'Back',0
+music_scene_menu_exit
+    dc.b 'Exit Menu',0
+music_scene_menu_end:
     EVEN
     
 ;=============================================================================
@@ -556,13 +498,13 @@ music_menu_params
 music_menu_title:
     dc.b 'MUSIC MENU',0
 music_menu_option0
-    dc.b 'The Realm Of Love',0
+    dc.b 'Dreaming City by Richard',0
 music_menu_option1
-    dc.b 'Chipper I',0
+    dc.b 'Like A Moon by Richard',0
 music_menu_option2
-    dc.b 'Cucumber Boogie',0
+    dc.b 'Rogue Ninja by Richard',0
 music_menu_option3
-    dc.b 'Feed Your Chicken',0
+    dc.b 'The Last Frontier by Richard',0
 music_menu_option4
     dc.b 'Silence',0
 music_menu_option5
