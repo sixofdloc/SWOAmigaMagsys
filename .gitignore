@@ -1,10 +1,14 @@
+*.zip
+a.out
 magsys
 include/
-music/*
-articles/*
+music/
+articles/
+sid/
+test/
+temp/
+unpackedArticles/
+unpackedLogos/
 sid/*
-*.sid
-test/*
-unpackedArticles/*
-unpackedLogos/*
+articles/*
 

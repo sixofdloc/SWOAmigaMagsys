@@ -112,7 +112,7 @@ errorLoop
 
 ;=============================================================================
 ; LoadPackedFile - Loads a cranker-packed file and depacks it
-; returns 0 in d0 on error
+; returns 0 in d1 on error
 ; returns unpacked filesize on successful load
 ; expects d1 = pointer to filename
 ;         d2 = location of load buffer (where packed data goes)
@@ -140,6 +140,7 @@ LoadPackedFile:
     move.l d0,a1
     ;cache unpacked file size
     move.l #0,lpf_unpackedsize
+    move.l #0,d0
     move.w 2(a0),d0
     move.l d0,lpf_unpackedsize
 
@@ -150,15 +151,15 @@ LoadPackedFile:
     add.l #4,a0
     jsr lzodecrunch  ;depack file
 
-    move.l lpf_unpackedsize,d0 ;returned unpacked file size
+    move.l lpf_unpackedsize,d1 ;returned unpacked file size
     rts
 LoadPackedFile_err:
-    move.l 0,d0
+    move.l 0,d1
     rts
-
 ;=============================================================================
 ; LoadFont - loads the font associated with an article
 ; expects d0 = Font # to load
+    IFNE CUSTOM_FONTS
 
 LoadFont ;expects font # in d0
     lea fontfilenames,a0
@@ -172,6 +173,8 @@ LoadFont ;expects font # in d0
     bsr.w LoadFile
     rts
 
+    ENDIF
+    
 ;=============================================================================
 ; LoadArticle - Loads a specified article from cranker packed format
 ; expects d0 = Number of article to load
@@ -198,12 +201,15 @@ LoadArticle ;expects article # in d0
     ;load the packed article
     bsr.w LoadPackedFile
     ;unpacked size is in d0
-    divu #40,d0
-    move.l d0,article_rows
+    ;move.l lpf_unpackedsize,d0 ;returned unpacked file size
+    divu #40,d1
+    move.l d1,article_rows
     move.l #0,loading_article
     move.l #0,current_top_row
     move.l CurrentArticle,d0
-    bsr.w LoadFont
+    IFNE CUSTOM_FONTS
+        bsr.w LoadFont
+    ENDIF
     rts
 
 ClearArticleArea

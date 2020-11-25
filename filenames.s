@@ -2,17 +2,13 @@
 ; Music filenames
 ;=============================================================================
 modfilename0:
-    dc.b 'sid/Dreaming_City-RICHARD.sid',0
-;    dc.b 'music/mod.the realm of love',0
+    dc.b 'sid/BeautifulMoment.sid',0
 modfilename1:
-    dc.b 'sid/Like_A_Moon-Richard.sid',0
-;    dc.b 'music/mod.chipper i',0
+    dc.b 'sid/CarribeanTrip.sid',0
 modfilename2:
-    dc.b 'sid/Rogue_Ninja.sid',0
-;    dc.b 'music/mod.cucumber boogie+',0
+    dc.b 'sid/DystopianShock.sid',0
 modfilename3:
-    dc.b 'sid/TheLastFrontier.sid',0
-;    dc.b 'music/fyc.mod',0
+    dc.b 'sid/MyHoneybee.sid',0
 
 modfilenames:
     dc.l modfilename0,modfilename1,modfilename2,modfilename3
@@ -27,96 +23,50 @@ logobasename:
 ; Article filenames
 ;=============================================================================
 articlefilename0:
-    dc.b 'articles/editorial.pak',0 
+    dc.b 'articles/editorial.pak',0 ;Editorial
 articlefilename1:
-    dc.b 'articles/nafcom.pak',0 
+    dc.b 'articles/swofeedback30.pak',0  ;Feedback
 articlefilename2:
-    dc.b 'articles/28info.pak',0 
-;party menu
+    dc.b 'articles/30info.pak',0  ;SWO Info
+
 articlefilename3:
-    dc.b 'articles/syntax.pak',0 
+    dc.b 'articles/back1.pak',0 
 articlefilename4:
-    dc.b 'articles/revision.pak',0 
+    dc.b 'articles/back2.pak',0 
 articlefilename5:
-    dc.b 'articles/homecon.pak',0 
+    dc.b 'articles/back3.pak',0 
 articlefilename6:
-    dc.b 'articles/expo.pak',0 
-
-;games scene menu
+    dc.b 'articles/back4.pak',0 
 articlefilename7:
-    dc.b 'articles/8bit.pak',0 
+    dc.b 'articles/back5.pak',0 
 articlefilename8:
-    dc.b 'articles/mkgm1.pak',0
+    dc.b 'articles/back6.pak',0
 articlefilename9:
-    dc.b 'articles/mkgm2.pak',0 
-
-;games news menu
+    dc.b 'articles/biggi1.pak',0 
 articlefilename10:
-    dc.b 'articles/gnews1.pak',0 
+    dc.b 'articles/biggi2.pak',0 
 articlefilename11:
-    dc.b 'articles/gnews2.pak',0
+    dc.b 'articles/biggi3.pak',0
 articlefilename12:
-    dc.b 'articles/gnews3.pak',0 
+    dc.b 'articles/biggi4.pak',0 
 articlefilename13:
-    dc.b 'articles/gnews4.pak',0 
+    dc.b 'articles/gamescon2019.pak',0 
 articlefilename14:
-    dc.b 'articles/gnews5.pak',0 
+    dc.b 'articles/gamenews1.pak',0 
 articlefilename15:
-    dc.b 'articles/gnews6.pak',0 
+    dc.b 'articles/gamenews2.pak',0 
 articlefilename16:
-    dc.b 'articles/gnews7.pak',0 
-
-;interviews/John Chowning menu
+    dc.b 'articles/gamenews3.pak',0 
 articlefilename17:
-    dc.b 'articles/john1.pak',0 
+    dc.b 'articles/gamenews4.pak',0 
 articlefilename18:
-    dc.b 'articles/john2.pak',0 
+    dc.b 'articles/gamenews5.pak',0 
 articlefilename19:
-    dc.b 'articles/john3.pak',0 
-
-;interviews/Christian Spanik
+    dc.b 'articles/thec64programmingchallenge.pak',0 
 articlefilename20:
-    dc.b 'articles/chris1.pak',0 
+    dc.b 'articles/thec64unboxing.pak',0 
 articlefilename21:
-    dc.b 'articles/chris2.pak',0 
-articlefilename22:
-    dc.b 'articles/chris3.pak',0 
-articlefilename23:
-    dc.b 'articles/chris4.pak',0 
-
-;interviews/David Pleasance
-articlefilename24:
-    dc.b 'articles/david1.pak',0 
-articlefilename25:
-    dc.b 'articles/david2.pak',0 
-articlefilename26:
-    dc.b 'articles/david3.pak',0 
-articlefilename27:
-    dc.b 'articles/david4.pak',0 
-articlefilename28:
-    dc.b 'articles/david5.pak',0 
-articlefilename29:
-    dc.b 'articles/david6.pak',0 
-articlefilename30:
-    dc.b 'articles/david7.pak',0 
-articlefilename31:
-    dc.b 'articles/david8.pak',0 
-articlefilename32:
-    dc.b 'articles/david9.pak',0 
-
-;interviews
-articlefilename33:
-    dc.b 'articles/dennis.pak',0
-
-;ntsc news
-articlefilename34:
-    dc.b 'articles/ntsc1.pak',0 
-articlefilename35:
-    dc.b 'articles/ntsc2.pak',0 
-
-;forgotten ones above
-articlefilename36:
-    dc.b 'articles/review.pak',0
+    dc.b 'articles/welleerdball.pak',0 
     
 articlefilenames:
     dc.l articlefilename0,articlefilename1,articlefilename2,articlefilename3
@@ -124,12 +74,9 @@ articlefilenames:
     dc.l articlefilename8,articlefilename9,articlefilename10,articlefilename11
     dc.l articlefilename12,articlefilename13,articlefilename14,articlefilename15
     dc.l articlefilename16,articlefilename17,articlefilename18,articlefilename19
-    dc.l articlefilename20,articlefilename21,articlefilename22,articlefilename23
-    dc.l articlefilename24,articlefilename25,articlefilename26,articlefilename27
-    dc.l articlefilename28,articlefilename29,articlefilename30,articlefilename31
-    dc.l articlefilename32,articlefilename33,articlefilename34,articlefilename35
-    dc.l articlefilename36
+    dc.l articlefilename20,articlefilename21
 
+    IFNE CUSTOM_FONTS
 ;=============================================================================
 ; Font filenames
 ;=============================================================================
@@ -236,5 +183,5 @@ fontfilenames:
     dc.l fontfilename28,fontfilename29,fontfilename30,fontfilename31
     dc.l fontfilename32,fontfilename33,fontfilename34,fontfilename35
     dc.l fontfilename36
-
+    ENDIF ;custom fonts
 

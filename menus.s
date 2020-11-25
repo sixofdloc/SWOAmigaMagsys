@@ -142,7 +142,7 @@ party_menu_actions
     dc.l MENU_ACTION_ARTICLE
     dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU ;back, exit
 party_menu_params
-    dc.l 9
+    dc.l 13
     dc.l main_menu, 0 ;back, exit
 party_menu_title:
     dc.b 'PARTY SCENE',0
@@ -193,12 +193,12 @@ games_menu_actions
 
     dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
 games_menu_params
-    dc.l 9
-    dc.l 9
-    dc.l 9
-    dc.l 9
-    dc.l 9
-    dc.l 9
+    dc.l 14
+    dc.l 15
+    dc.l 16
+    dc.l 17
+    dc.l 18
+    dc.l 19
     dc.l main_menu,0
 games_menu_title:
     dc.b 'GAMES SCENE',0
@@ -241,7 +241,7 @@ hardware_menu_actions
     dc.l MENU_ACTION_ARTICLE
     dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU ;back, exit
 hardware_menu_params
-    dc.l 9
+    dc.l 20
     dc.l main_menu,0 ;back, exit
 hardware_menu_title:
     dc.b 'HARDWARE SCENE',0
@@ -325,12 +325,12 @@ wolfgang_menu_actions
     dc.l MENU_ACTION_ARTICLE
     dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU ;back, exit
 wolfgang_menu_params
-    dc.l 9
-    dc.l 9
-    dc.l 9
-    dc.l 9
-    dc.l 9
-    dc.l 9
+    dc.l 3
+    dc.l 4
+    dc.l 5
+    dc.l 6
+    dc.l 7
+    dc.l 8
     dc.l interviews_menu,0 ;back, exit
 wolfgang_menu_title:
     dc.b 'JOHN CHOWNING INTERVIEW',0
@@ -380,9 +380,9 @@ biggi_menu_actions
     dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU ; back, exit
 biggi_menu_params
     dc.l 9
-    dc.l 9
-    dc.l 9
-    dc.l 9
+    dc.l 10
+    dc.l 11
+    dc.l 12
     dc.l interviews_menu,0 ;back, exit
 biggi_menu_title:
     dc.b 'CHRISTIAN SPANIK INTERVIEW',0
@@ -423,7 +423,7 @@ music_scene_menu_actions
     dc.l MENU_ACTION_ARTICLE
     dc.l MENU_ACTION_SPAWNMENU,MENU_ACTION_CLOSEMENU
 music_scene_menu_params
-    dc.l 9
+    dc.l 21
     dc.l main_menu,0
 music_scene_menu_title:
     dc.b 'MUSIC SCENE',0
@@ -498,13 +498,13 @@ music_menu_params
 music_menu_title:
     dc.b 'MUSIC MENU',0
 music_menu_option0
-    dc.b 'Dreaming City by Richard',0
+    dc.b 'Beautiful Moment by Richard',0
 music_menu_option1
-    dc.b 'Like A Moon by Richard',0
+    dc.b 'Carribean Trip by Richard',0
 music_menu_option2
-    dc.b 'Rogue Ninja by Richard',0
+    dc.b 'Dystopian Shock by Richard',0
 music_menu_option3
-    dc.b 'The Last Frontier by Richard',0
+    dc.b 'My Honeybee by Crome',0
 music_menu_option4
     dc.b 'Silence',0
 music_menu_option5

@@ -14,6 +14,7 @@
     include 'libraries/playsid_lib.i'
 
 MUSIC_SYSTEM EQU 0 ; 0 for SID, 1 for PT
+CUSTOM_FONTS EQU 0 ; 0 for no custom fonts, 1 for custom fonts per article
 ;=============================================================================
 
 ScreenWidth     EQU 320
